@@ -9,6 +9,8 @@ import { HomeIcon as HomeSolid, HeartIcon as HeartSolid, ShoppingBagIcon as BagS
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { themeColors } from "../theme";
 import { Platform, View } from "react-native";
+import { getItem } from "../utils/asyncStorage.js";
+import OnboardingScreen from "../screens/OnboardingScreen.js";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,15 +61,45 @@ function HomeTabs() {
 }
 
 function AppNavigation() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Welcome' screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "white" } }}>
-        <Stack.Screen name='Home' options={{ headerShown: false }} component={HomeTabs} />
-        <Stack.Screen name='Welcome' component={WelcomeScreen} />
-        <Stack.Screen name='RecipeDetail' options={{ presentation: "fullScreenModal" }} component={RecipeDetailScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+  const [showOnboarding, setShowOnboarding] = React.useState(null);
+  React.useEffect(() => {
+    checkIfAlreadyOnboarded();
+  }, []);
+
+  const checkIfAlreadyOnboarded = async () => {
+    let onboarded = await getItem("onboarded");
+    if (onboarded === 1) {
+      // hide onboarding
+      setShowOnboarding(false);
+    } else {
+      // show onboarding
+      setShowOnboarding(true);
+    }
+  };
+
+  if (showOnboarding == null) {
+    return null;
+  }
+  if (showOnboarding) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Onboarding'>
+          <Stack.Screen name='Onboarding' options={{ headerShown: false }} component={OnboardingScreen} />
+          <Stack.Screen name='Home' options={{ headerShown: false }} component={HomeScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  } else {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Welcome' screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "white" } }}>
+          <Stack.Screen name='Home' options={{ headerShown: false }} component={HomeTabs} />
+          <Stack.Screen name='Welcome' component={WelcomeScreen} />
+          <Stack.Screen name='RecipeDetail' options={{ presentation: "fullScreenModal" }} component={RecipeDetailScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
 }
 
 export default AppNavigation;

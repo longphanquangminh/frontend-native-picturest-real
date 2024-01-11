@@ -9,7 +9,7 @@ import { BASE_URL } from "../api/config";
 import { Drawer } from "expo-router/drawer";
 import CustomDrawerContent from "../components/customDrawerContent";
 import Ionicons from "@expo/vector-icons/Ionicons";
-export default function HomeScreen() {
+export default function Home() {
   const [activeCategory, setActiveCategory] = useState("Beef");
   const [categories, setCategories] = useState([]);
   const [meals, setMeals] = useState([]);
