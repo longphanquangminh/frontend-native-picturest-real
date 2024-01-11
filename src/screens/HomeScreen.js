@@ -1,3 +1,4 @@
+import Config from "react-native-config";
 import { View, Text, ScrollView, Image, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -6,6 +7,7 @@ import { BellIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import Categories from "../components/categories";
 import axios from "axios";
 import Recipes from "../components/recipes";
+import { BASE_URL } from "../api/config";
 export default function HomeScreen() {
   const [activeCategory, setActiveCategory] = useState("Beef");
   const [categories, setCategories] = useState([]);
@@ -24,8 +26,23 @@ export default function HomeScreen() {
     }
   };
 
+  const [pictures, setPictures] = useState([]);
+
+  const getPictures = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/pictures`);
+      // console.log('got categories: ',response.data);
+      if (response && response.data) {
+        setPictures(response.data.content.data);
+      }
+    } catch (err) {
+      console.log("error: ", err.message);
+    }
+  };
+
   useEffect(() => {
     getCategories();
+    getPictures();
     getRecipes();
     checkTime();
   }, []);
@@ -105,7 +122,7 @@ export default function HomeScreen() {
 
         {/* recipes */}
         <View>
-          <Recipes meals={meals} categories={categories} />
+          <Recipes meals={pictures} categories={categories} />
         </View>
       </ScrollView>
     </View>

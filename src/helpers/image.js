@@ -1,16 +1,14 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState } from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 
-import Animated from 'react-native-reanimated';
-import { Image } from 'expo-image';
-
-
+import Animated from "react-native-reanimated";
+import { Image } from "expo-image";
 
 // using asycn storage (does not work with android properly: disk space is low)
 // export const CachedImage = (props) => {
 //     const [cachedSource, setCachedSource] = useState(null);
 //     const { uri } = props;
-  
+
 //     useEffect(() => {
 //       const getCachedImage = async () => {
 //         try {
@@ -35,15 +33,20 @@ import { Image } from 'expo-image';
 //           setCachedSource({uri});
 //         }
 //       };
-  
+
 //       getCachedImage();
 //     }, []);
-  
+
 //     return <Animated.Image source={cachedSource} {...props} />;
 //   };
 
-export const CachedImage = (props) => {
-    const { uri } = props;
-  
-    return <Image source={uri} {...props} />;
+export const CachedImage = props => {
+  const { uri, fallbackSource } = props;
+  const [error, setError] = useState(false);
+
+  const onImageError = () => {
+    setError(true);
   };
+
+  return <Image source={error ? fallbackSource : uri} {...props} onError={onImageError} />;
+};

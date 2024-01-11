@@ -7,6 +7,8 @@ import Animated, { FadeInDown } from "react-native-reanimated";
 import Loading from "./loading";
 import { CachedImage } from "../helpers/image";
 import { useNavigation } from "@react-navigation/native";
+import { fallbackImage } from "../constants/index";
+import { BASE_URL_IMG } from "../api/config";
 
 export default function Recipes({ categories, meals }) {
   const navigation = useNavigation();
@@ -21,7 +23,7 @@ export default function Recipes({ categories, meals }) {
         ) : (
           <MasonryList
             data={meals}
-            keyExtractor={item => item.idMeal}
+            keyExtractor={item => item.hinhId}
             numColumns={2}
             showsVerticalScrollIndicator={false}
             renderItem={({ item, i }) => <RecipeCard item={item} index={i} navigation={navigation} />}
@@ -56,13 +58,14 @@ const RecipeCard = ({ item, index, navigation }) => {
                     className="bg-black/5"
                 /> */}
         <CachedImage
-          uri={item.strMealThumb}
+          uri={`${BASE_URL_IMG}/${item.duongDan}`}
           style={{ width: "100%", height: index % 3 == 0 ? hp(25) : hp(35), borderRadius: 35 }}
           className='bg-black/5'
+          fallbackSource={fallbackImage}
         />
 
         <Text style={{ fontSize: hp(1.5) }} className='font-semibold ml-2 text-neutral-600'>
-          {item.strMeal.length > 20 ? item.strMeal.slice(0, 20) + "..." : item.strMeal}
+          {item.tenHinh.length > 20 ? item.tenHinh.slice(0, 20) + "..." : item.tenHinh}
         </Text>
       </Pressable>
     </Animated.View>
