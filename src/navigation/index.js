@@ -9,7 +9,6 @@ import { HomeIcon as HomeSolid, HeartIcon as HeartSolid, ShoppingBagIcon as BagS
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { themeColors } from "../theme";
 import { Platform, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
