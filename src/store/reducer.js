@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 
 const initialState = {
+  user: null,
   data: null,
   loading: false,
   error: null,
