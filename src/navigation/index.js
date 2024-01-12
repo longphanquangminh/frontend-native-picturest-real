@@ -8,7 +8,7 @@ import { HomeIcon as HomeOutline, HeartIcon as HeartOutline, ShoppingBagIcon as 
 import { HomeIcon as HomeSolid, HeartIcon as HeartSolid, ShoppingBagIcon as BagSolid } from "react-native-heroicons/solid";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { themeColors } from "../theme";
-import { Platform, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import { getItem } from "../utils/asyncStorage.js";
 import OnboardingScreen from "../screens/OnboardingScreen.js";
 
@@ -81,17 +81,15 @@ function AppNavigation() {
     return null;
   }
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={showOnboarding ? "Onboarding" : "Welcome"}
-        screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "white" } }}
-      >
-        <Stack.Screen name='Onboarding' options={{ headerShown: false }} component={OnboardingScreen} />
-        <Stack.Screen name='Home' options={{ headerShown: false }} component={HomeTabs} />
-        <Stack.Screen name='Welcome' component={WelcomeScreen} />
-        <Stack.Screen name='RecipeDetail' options={{ presentation: "fullScreenModal" }} component={RecipeDetailScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator
+      initialRouteName={showOnboarding ? "Onboarding" : "Welcome"}
+      screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "white" } }}
+    >
+      <Stack.Screen name='Onboarding' options={{ headerShown: false }} component={OnboardingScreen} />
+      <Stack.Screen name='Home' options={{ headerShown: false }} component={HomeTabs} />
+      <Stack.Screen name='Welcome' component={WelcomeScreen} />
+      <Stack.Screen name='RecipeDetail' options={{ presentation: "fullScreenModal" }} component={RecipeDetailScreen} />
+    </Stack.Navigator>
   );
   // return (
   //   <NavigationContainer>

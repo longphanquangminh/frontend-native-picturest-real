@@ -1,5 +1,5 @@
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView, TouchableOpacity, Image, Pressable, StyleSheet } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { CachedImage } from "../helpers/image";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
@@ -15,12 +15,28 @@ import { BASE_URL, BASE_URL_IMG } from "../api/config";
 import { fallbackImage } from "../constants";
 import { capitalizeString } from "../helpers/capitalizeString";
 import { themeColors } from "../theme";
+import AnimatedLottieView from "lottie-react-native";
 
 const ios = Platform.OS == "ios";
 
 export default function RecipeDetailScreen(props) {
   let item = props.route.params;
   const [isFavourite, setIsFavourite] = useState(false);
+  const heartRef = useRef(null);
+
+  useEffect(() => {
+    heartRef?.current?.play(0, 30);
+  }, []);
+
+  const handleLike = () => {
+    if (isFavourite) {
+      heartRef?.current?.reset();
+    } else {
+      heartRef?.current?.play(30, 144);
+    }
+
+    setIsFavourite(!isFavourite);
+  };
   const navigation = useNavigation();
   const [meal, setMeal] = useState(null);
   const [comments, setComments] = useState([]);
@@ -101,11 +117,13 @@ export default function RecipeDetailScreen(props) {
 
         {/* back button */}
         <Animated.View entering={FadeIn.delay(200).duration(1000)} className='w-full absolute flex-row justify-between items-center pt-14'>
-          <TouchableOpacity onPress={() => navigation.goBack()} className='p-2 rounded-full ml-5 bg-white'>
+          <TouchableOpacity onPress={() => navigation.goBack()} className='p-3 rounded-full ml-5 bg-white'>
             <ChevronLeftIcon size={hp(3.5)} strokeWidth={4.5} color='#fbbf24' />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setIsFavourite(!isFavourite)} className='p-2 rounded-full mr-5 bg-white'>
-            <HeartIcon size={hp(3.5)} strokeWidth={4.5} color={isFavourite ? "red" : "gray"} />
+          <TouchableOpacity className='p-1 rounded-full mr-5 bg-white'>
+            <Pressable onPress={handleLike}>
+              <AnimatedLottieView style={{ height: hp(6) }} ref={heartRef} loop={false} source={require("../../assets/animations/heart.json")} />
+            </Pressable>
           </TouchableOpacity>
         </Animated.View>
 
@@ -119,9 +137,20 @@ export default function RecipeDetailScreen(props) {
               <Text style={{ fontSize: hp(3) }} className='font-bold flex-1 text-neutral-700'>
                 {meal?.tenHinh}
               </Text>
-              <Text style={{ fontSize: hp(2) }} className='font-medium flex-1 text-neutral-500'>
+              {/* <Text style={{ fontSize: hp(2) }} className='font-medium flex-1 text-neutral-500'>
                 {capitalizeString(meal?.nguoiDung?.hoTen ?? "User")}
-              </Text>
+              </Text> */}
+              <View className='flex-row items-center space-x-2'>
+                <CachedImage
+                  className='rounded-full object-cover'
+                  uri={`${BASE_URL_IMG}/${meal?.nguoiDung?.anhDaiDien}`}
+                  style={{ width: hp(4), height: hp(4) }}
+                  fallbackSource={fallbackImage}
+                />
+                <Text style={{ fontSize: wp(4.8) }} className='font-normal text-gray-700'>
+                  {capitalizeString(meal?.nguoiDung?.hoTen ?? "User")}
+                </Text>
+              </View>
             </Animated.View>
 
             {/* misc */}
@@ -237,7 +266,7 @@ export default function RecipeDetailScreen(props) {
                   const color = index % 2 == 0 ? themeColors.bgOnBoard2 : themeColors.bgOnBoard3;
                   return (
                     <View key={index} className={`p-4 rounded-xl space-y-2`} style={{ backgroundColor: color }}>
-                      <View className='flex-row items-center space-x-1'>
+                      <View className='flex-row items-center space-x-2'>
                         <CachedImage
                           className='rounded-full object-cover'
                           uri={`${BASE_URL_IMG}/${item.nguoiDung.anhDaiDien}`}
@@ -292,3 +321,10 @@ export default function RecipeDetailScreen(props) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    height: hp(3.5),
+    aspectRatio: 1,
+  },
+});

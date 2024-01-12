@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TextInput } from "react-native";
+import { View, Text, ScrollView, Image, TextInput, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
@@ -11,6 +11,7 @@ import CustomDrawerContent from "../components/customDrawerContent";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Categories from "../components/categories";
 import SortCategories from "../components/sortCategories";
+import { themeColors } from "../theme";
 export default function HomeScreen() {
   const [activeCategory, setActiveCategory] = useState("Beef");
   const [categories, setCategories] = useState([]);
@@ -111,9 +112,12 @@ export default function HomeScreen() {
             style={{ fontSize: hp(1.7) }}
             className='flex-1 text-base mb-1 pl-3 tracking-wider'
           />
-          <View className='bg-white rounded-full p-3'>
+          {/* <View className='bg-white rounded-full p-3'>
             <MagnifyingGlassIcon size={hp(2.5)} strokeWidth={3} color='gray' />
-          </View>
+          </View> */}
+          <TouchableOpacity className='rounded-full p-2' style={{ backgroundColor: themeColors.bgLight }}>
+            <MagnifyingGlassIcon size='25' strokeWidth={2} color='white' />
+          </TouchableOpacity>
         </View>
 
         {/* categories */}
