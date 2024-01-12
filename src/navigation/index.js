@@ -80,26 +80,28 @@ function AppNavigation() {
   if (showOnboarding == null) {
     return null;
   }
-  if (showOnboarding) {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='Onboarding'>
-          <Stack.Screen name='Onboarding' options={{ headerShown: false }} component={OnboardingScreen} />
-          <Stack.Screen name='Home' options={{ headerShown: false }} component={HomeScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  } else {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='Welcome' screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "white" } }}>
-          <Stack.Screen name='Home' options={{ headerShown: false }} component={HomeTabs} />
-          <Stack.Screen name='Welcome' component={WelcomeScreen} />
-          <Stack.Screen name='RecipeDetail' options={{ presentation: "fullScreenModal" }} component={RecipeDetailScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName={showOnboarding ? "Onboarding" : "Welcome"}
+        screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "white" } }}
+      >
+        <Stack.Screen name='Onboarding' options={{ headerShown: false }} component={OnboardingScreen} />
+        <Stack.Screen name='Home' options={{ headerShown: false }} component={HomeTabs} />
+        <Stack.Screen name='Welcome' component={WelcomeScreen} />
+        <Stack.Screen name='RecipeDetail' options={{ presentation: "fullScreenModal" }} component={RecipeDetailScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+  // return (
+  //   <NavigationContainer>
+  //     <Stack.Navigator initialRouteName='Welcome' screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "white" } }}>
+  //       <Stack.Screen name='Home' options={{ headerShown: false }} component={HomeTabs} />
+  //       <Stack.Screen name='Welcome' component={WelcomeScreen} />
+  //       <Stack.Screen name='RecipeDetail' options={{ presentation: "fullScreenModal" }} component={RecipeDetailScreen} />
+  //     </Stack.Navigator>
+  //   </NavigationContainer>
+  // );
 }
 
 export default AppNavigation;

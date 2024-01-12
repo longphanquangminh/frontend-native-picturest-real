@@ -9,6 +9,8 @@ import { BASE_URL } from "../api/config";
 import { Drawer } from "expo-router/drawer";
 import CustomDrawerContent from "../components/customDrawerContent";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Categories from "../components/categories";
+import SortCategories from "../components/sortCategories";
 export default function HomeScreen() {
   const [activeCategory, setActiveCategory] = useState("Beef");
   const [categories, setCategories] = useState([]);
@@ -121,10 +123,21 @@ export default function HomeScreen() {
           )}
         </View> */}
 
+        {/* categories */}
+        <View className='mb-4'>
+          <Categories />
+        </View>
+
+        {/* sort categories */}
+        <View className='mb-4'>
+          <SortCategories />
+        </View>
+
         {/* recipes */}
         <View>
           <Recipes meals={pictures} categories={categories} />
         </View>
+        <View className='mb-20'></View>
       </ScrollView>
     </View>
   );

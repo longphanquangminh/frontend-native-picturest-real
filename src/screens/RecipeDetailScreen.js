@@ -1,20 +1,20 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { CachedImage } from "../helpers/image";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { ChevronLeftIcon, ClockIcon, FireIcon } from "react-native-heroicons/outline";
-import { HeartIcon, Square3Stack3DIcon, UsersIcon } from "react-native-heroicons/solid";
+import { HeartIcon, UsersIcon } from "react-native-heroicons/solid";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import Loading from "../components/loading";
-import YouTubeIframe from "react-native-youtube-iframe";
 import Animated, { FadeInDown, FadeIn } from "react-native-reanimated";
 import { Platform } from "react-native";
 import * as Linking from "expo-linking";
 import { BASE_URL, BASE_URL_IMG } from "../api/config";
 import { fallbackImage } from "../constants";
 import { capitalizeString } from "../helpers/capitalizeString";
+import { themeColors } from "../theme";
 
 const ios = Platform.OS == "ios";
 
@@ -229,9 +229,35 @@ export default function RecipeDetailScreen(props) {
               <Text style={{ fontSize: hp(2.5) }} className='font-bold flex-1 text-neutral-700'>
                 Comments
               </Text>
-              <Text style={{ fontSize: hp(1.6) }} className='text-neutral-700'>
+              {/* <Text style={{ fontSize: hp(1.6) }} className='text-neutral-700'>
                 {meal?.strInstructions}
-              </Text>
+              </Text> */}
+              {comments.length > 0 ? (
+                comments.map((comment, index) => {
+                  const color = index % 2 == 0 ? themeColors.bgOnBoard2 : themeColors.bgOnBoard3;
+                  return (
+                    <View key={index} className={`p-4 rounded-xl space-y-2`} style={{ backgroundColor: color }}>
+                      <View className='flex-row items-center space-x-1'>
+                        <CachedImage
+                          className='rounded-full object-cover'
+                          uri={`${BASE_URL_IMG}/${item.nguoiDung.anhDaiDien}`}
+                          style={{ width: hp(4), height: hp(4) }}
+                          fallbackSource={fallbackImage}
+                        />
+                        <Text style={{ fontSize: wp(4.8) }} className='font-semibold text-gray-700'>
+                          {capitalizeString(comment?.nguoiDung?.hoTen ?? "User")}
+                        </Text>
+                      </View>
+
+                      <Text style={{ fontSize: wp(3.8) }} className='text-gray-700 font-medium'>
+                        {comment.noiDung}
+                      </Text>
+                    </View>
+                  );
+                })
+              ) : (
+                <Text>No comments!</Text>
+              )}
             </Animated.View>
 
             {/* recipe video */}

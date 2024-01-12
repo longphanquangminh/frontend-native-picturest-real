@@ -36,3 +36,36 @@ export const mealData = [
     image: "https://www.themealdb.com/images/media/meals/uuqvwu1504629254.jpg",
   },
 ];
+
+export const sortCategoryData = ["All", "Popular", "Recommended", "More"];
+
+export const categoriesData = [
+  {
+    title: "Ocean",
+    image: require("../../assets/images/ocean.png"),
+  },
+  {
+    title: "Mountain",
+    image: require("../../assets/images/mountain.png"),
+  },
+  {
+    title: "Camp",
+    image: require("../../assets/images/camp.png"),
+  },
+  {
+    title: "Sunset",
+    image: require("../../assets/images/sunset.png"),
+  },
+  {
+    title: "Hiking",
+    image: require("../../assets/images/hiking.png"),
+  },
+  {
+    title: "Beach",
+    image: require("../../assets/images/beach.png"),
+  },
+  {
+    title: "Forest",
+    image: require("../../assets/images/forest.png"),
+  },
+];

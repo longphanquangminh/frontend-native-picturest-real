@@ -1,49 +1,32 @@
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
-import {categoryData} from '../constants'
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import Animated, { FadeInDown } from 'react-native-reanimated';
-import { CachedImage } from '../helpers/image';
+import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
+import React from "react";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { themeColors } from "../theme";
+import { categoriesData } from "../constants";
 
-export default function Categories({categories, activeCategory, handleChangeCategory}) {
+export default function Categories() {
   return (
-    <Animated.View entering={FadeInDown.duration(500).springify()}>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        className="space-x-4"
-        contentContainerStyle={{paddingHorizontal: 15}}
-      >
-        {
-            categories.map((cat, index)=>{
-                let isActive = cat.strCategory==activeCategory;
-                let activeButtonClass = isActive? ' bg-amber-400': ' bg-black/10';
-                return (
-                    <TouchableOpacity
-                        key={index}
-                        onPress={()=> handleChangeCategory(cat.strCategory)}
-                        className="flex items-center space-y-1"
-                    >
-                        <View className={"rounded-full p-[6px] "+activeButtonClass}>
-                            {/* <Image
-                                source={{uri: cat.strCategoryThumb}}
-                                style={{width: hp(6), height: hp(6)}}
-                                className="rounded-full"
-                            /> */}
-                            <CachedImage
-                                uri={cat.strCategoryThumb}
-                                style={{width: hp(6), height: hp(6)}}
-                                className="rounded-full"
-                            />
-                        </View>
-                        <Text className="text-neutral-600" style={{fontSize: hp(1.6)}}>
-                            {cat.strCategory}
-                        </Text>
-                    </TouchableOpacity>
-                )
-            })
-        }
+    <View className='space-y-5'>
+      <View className='mx-5 flex-row justify-between items-center'>
+        <Text style={{ fontSize: wp(4) }} className='font-semibold text-neutral-700'>
+          Categories
+        </Text>
+        <TouchableOpacity>
+          <Text style={{ fontSize: wp(4), color: themeColors.textNew }}>See all</Text>
+        </TouchableOpacity>
+      </View>
+      <ScrollView horizontal contentContainerStyle={{ paddingHorizontal: 15 }} className='space-x-4' showsHorizontalScrollIndicator={false}>
+        {categoriesData.map((cat, index) => {
+          return (
+            <TouchableOpacity key={index} className='flex items-center space-y-2'>
+              <Image source={cat.image} className='rounded-3xl' style={{ width: wp(20), height: wp(19) }} />
+              <Text className='text-neutral-700 font-medium' style={{ fontSize: wp(3) }}>
+                {cat.title}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
-    </Animated.View>
-  )
+    </View>
+  );
 }

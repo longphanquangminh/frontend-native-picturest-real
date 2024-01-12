@@ -6,4 +6,9 @@ export const themeColors = {
   //   bgLight: "rgba(251, 191, 36, 1)",
   bgDark: "#8c5319",
   text: "#3C2A21",
+  textNew: "#f97316",
+  bgOnBoard1: "#fef3c7",
+  bgOnBoard2: "#feeeae",
+  bgOnBoard3: "#fde37c",
+  bgOnBoard4: "#fdde63",
 };

@@ -4,6 +4,7 @@ import Onboarding from "react-native-onboarding-swiper";
 import Lottie from "lottie-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { setItem } from "../utils/asyncStorage";
+import { themeColors } from "../theme";
 
 const { width, height } = Dimensions.get("window");
 
@@ -33,7 +34,7 @@ export default function OnboardingScreen() {
         containerStyles={{ paddingHorizontal: 15 }}
         pages={[
           {
-            backgroundColor: "#a7f3d0",
+            backgroundColor: themeColors.bgOnBoard1,
             image: (
               <View style={styles.lottie}>
                 <Lottie source={require("../../assets/animations/boost.json")} autoPlay loop />
@@ -43,7 +44,7 @@ export default function OnboardingScreen() {
             subtitle: "Subscribe this channel to boost your productivity level",
           },
           {
-            backgroundColor: "#fef3c7",
+            backgroundColor: themeColors.bgOnBoard2,
             image: (
               <View style={styles.lottie}>
                 <Lottie source={require("../../assets/animations/work.json")} autoPlay loop />
@@ -53,7 +54,7 @@ export default function OnboardingScreen() {
             subtitle: "Get your work done seamlessly without interruption",
           },
           {
-            backgroundColor: "#a78bfa",
+            backgroundColor: themeColors.bgOnBoard3,
             image: (
               <View style={styles.lottie}>
                 <Lottie source={require("../../assets/animations/achieve.json")} autoPlay loop />
