@@ -6,6 +6,7 @@ export const themeColors = {
   //   bgLight: "rgba(251, 191, 36, 1)",
   bgDark: "#8c5319",
   text: "#3C2A21",
+  textIcon: "#0D163A",
   textNew: "#f97316",
   bgOnBoard1: "#fef3c7",
   bgOnBoard2: "#feeeae",
