@@ -4,8 +4,11 @@ import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawe
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector, connect } from "react-redux";
 
 const CustomDrawer = props => {
+  const navigation = useNavigation();
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: "#8200d6" }}>
@@ -46,11 +49,20 @@ const CustomDrawer = props => {
                 marginLeft: 5,
               }}
             >
-              Tell a Friend
+              Tell a Friend {props.userInfo?.nguoiDungId ? "🎁" : ""}
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
+        <TouchableOpacity
+          onPress={() => {
+            if (props.userInfo?.nguoiDungId) {
+              props.logout();
+            } else {
+              navigation.navigate("Login");
+            }
+          }}
+          style={{ paddingVertical: 15 }}
+        >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Ionicons name='exit-outline' size={22} />
             <Text
@@ -59,7 +71,7 @@ const CustomDrawer = props => {
                 marginLeft: 5,
               }}
             >
-              Sign Out
+              {props.userInfo?.nguoiDungId ? "Sign out" : "Sign in"}
             </Text>
           </View>
         </TouchableOpacity>
@@ -68,4 +80,12 @@ const CustomDrawer = props => {
   );
 };
 
-export default CustomDrawer;
+const mapStateToProps = state => ({
+  userInfo: state.user.userInfo,
+});
+
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch({ type: "LOGOUT" }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomDrawer);

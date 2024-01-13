@@ -24,6 +24,7 @@ import { Platform, Text, View } from "react-native";
 import { getItem } from "../utils/asyncStorage.js";
 import OnboardingScreen from "../screens/OnboardingScreen.js";
 import LoginScreen from "../screens/LoginScreen.js";
+import SignUpScreen from "../screens/SignUpScreen.js";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -101,6 +102,8 @@ function AppNavigation() {
       <Stack.Screen name='Onboarding' options={{ headerShown: false }} component={OnboardingScreen} />
       <Stack.Screen name='Home' options={{ headerShown: false }} component={HomeTabs} />
       <Stack.Screen name='Welcome' component={WelcomeScreen} />
+      <Stack.Screen name='SignUp' component={SignUpScreen} />
+      <Stack.Screen name='Login' component={LoginScreen} />
       <Stack.Screen name='RecipeDetail' options={{ presentation: "fullScreenModal" }} component={RecipeDetailScreen} />
     </Stack.Navigator>
   );

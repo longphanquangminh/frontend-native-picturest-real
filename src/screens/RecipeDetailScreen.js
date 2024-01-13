@@ -16,10 +16,25 @@ import { fallbackImage } from "../constants";
 import { capitalizeString } from "../helpers/capitalizeString";
 import { themeColors } from "../theme";
 import AnimatedLottieView from "lottie-react-native";
+import Toast from "react-native-toast-message";
 
 const ios = Platform.OS == "ios";
 
 export default function RecipeDetailScreen(props) {
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text1: "Saved ♥️",
+      text2: "You have saved the picture 😍",
+    });
+  };
+  const showToastUnsave = () => {
+    Toast.show({
+      type: "success",
+      text1: "Unsaved 💔",
+      text2: "Unsaved the picture 😿",
+    });
+  };
   let item = props.route.params;
   const [isFavourite, setIsFavourite] = useState(false);
   const heartRef = useRef(null);
@@ -101,6 +116,16 @@ export default function RecipeDetailScreen(props) {
     Linking.openURL(url);
   };
 
+  const toastProps = {
+    id: 1,
+    title: "Hello world",
+    placement: "top",
+    variant: "solid",
+    description: "This is a description",
+    isClosable: true,
+    status: "success",
+  };
+
   return (
     <View className='flex-1 bg-white relative'>
       <StatusBar style={"light"} />
@@ -116,7 +141,7 @@ export default function RecipeDetailScreen(props) {
         </View>
 
         {/* back button */}
-        <Animated.View entering={FadeIn.delay(200).duration(1000)} className='w-full absolute flex-row justify-between items-center pt-14'>
+        {/* <Animated.View entering={FadeIn.delay(200).duration(1000)} className='w-full absolute flex-row justify-between items-center pt-14'>
           <TouchableOpacity onPress={() => navigation.goBack()} className='p-3 rounded-full ml-5 bg-white'>
             <ChevronLeftIcon size={hp(3.5)} strokeWidth={4.5} color='#fbbf24' />
           </TouchableOpacity>
@@ -124,6 +149,35 @@ export default function RecipeDetailScreen(props) {
             <Pressable onPress={handleLike}>
               <AnimatedLottieView style={{ height: hp(6) }} ref={heartRef} loop={false} source={require("../../assets/animations/heart.json")} />
             </Pressable>
+          </TouchableOpacity>
+        </Animated.View> */}
+
+        <Animated.View entering={FadeIn.delay(200).duration(1000)} className='w-full absolute flex-row justify-between items-center pt-14'>
+          <TouchableOpacity onPress={() => navigation.goBack()} className='p-2 rounded-full ml-5 bg-white'>
+            <ChevronLeftIcon size={hp(3.5)} strokeWidth={4.5} color='#fbbf24' />
+          </TouchableOpacity>
+          <TouchableOpacity
+            // onPress={() =>
+            //   toast.show({
+            //     title: "Hello world",
+            //     placement: "top",
+            //     variant: "solid",
+            //     description: "This is a description",
+            //     isClosable: true,
+            //     status: "info",
+            //   })
+            // }
+            onPress={() => {
+              if (!isFavourite) {
+                showToast();
+              } else {
+                showToastUnsave();
+              }
+              setIsFavourite(!isFavourite);
+            }}
+            className='p-2 rounded-full mr-5 bg-white'
+          >
+            <HeartIcon size={hp(3.5)} strokeWidth={4.5} color={isFavourite ? "red" : "gray"} />
           </TouchableOpacity>
         </Animated.View>
 
@@ -273,12 +327,12 @@ export default function RecipeDetailScreen(props) {
                           style={{ width: hp(4), height: hp(4) }}
                           fallbackSource={fallbackImage}
                         />
-                        <Text style={{ fontSize: wp(4.8) }} className='font-semibold text-gray-700'>
+                        <Text style={{ fontSize: wp(4.8) }} className='text-gray-700'>
                           {capitalizeString(comment?.nguoiDung?.hoTen ?? "User")}
                         </Text>
                       </View>
 
-                      <Text style={{ fontSize: wp(3.8) }} className='text-gray-700 font-medium'>
+                      <Text style={{ fontSize: wp(3.8) }} className='text-gray-700'>
                         {comment.noiDung}
                       </Text>
                     </View>

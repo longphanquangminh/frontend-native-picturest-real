@@ -4,9 +4,27 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
+import { connect } from "react-redux";
 
-export default function LoginScreen() {
+function LoginScreen({ loading, error, login }) {
   const navigation = useNavigation();
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text1: "Register successfully!",
+      text2: "Welcome newcomer 👋 Please login!",
+    });
+  };
+  const handleLogin = () => {
+    login({ email: username, matKhau: password });
+    setPassword("");
+    setUsername("");
+    showToast();
+    navigation.goBack();
+  };
   return (
     <ScrollView className='flex-1 bg-white' style={{ backgroundColor: themeColors.bg }}>
       <SafeAreaView className='flex '>
@@ -21,14 +39,25 @@ export default function LoginScreen() {
       </SafeAreaView>
       <View style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50 }} className='flex-1 bg-white px-8 pt-8 pb-28'>
         <View className='form space-y-2'>
-          <Text className='text-gray-700 ml-4'>Email Address</Text>
-          <TextInput className='p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3' placeholder='email' value='john@gmail.com' />
+          <Text className='text-gray-700 ml-4'>Email</Text>
+          <TextInput
+            value={username}
+            onChangeText={text => setUsername(text)}
+            className='p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3'
+            placeholder='Your email'
+          />
           <Text className='text-gray-700 ml-4'>Password</Text>
-          <TextInput className='p-4 bg-gray-100 text-gray-700 rounded-2xl' secureTextEntry placeholder='password' value='test12345' />
+          <TextInput
+            value={password}
+            onChangeText={text => setPassword(text)}
+            className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
+            secureTextEntry
+            placeholder='Your password'
+          />
           <TouchableOpacity className='flex items-end'>
             <Text className='text-gray-700 mb-5'>Forgot Password?</Text>
           </TouchableOpacity>
-          <TouchableOpacity className='py-3 bg-yellow-400 rounded-xl'>
+          <TouchableOpacity onPress={handleLogin} className='py-3 bg-yellow-400 rounded-xl'>
             <Text className='text-xl font-bold text-center text-gray-700'>Login</Text>
           </TouchableOpacity>
         </View>
@@ -54,3 +83,14 @@ export default function LoginScreen() {
     </ScrollView>
   );
 }
+
+const mapStateToProps = state => ({
+  loading: state.user.loading,
+  error: state.user.error,
+});
+
+const mapDispatchToProps = dispatch => ({
+  login: credentials => dispatch({ type: "LOGIN", payload: credentials }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

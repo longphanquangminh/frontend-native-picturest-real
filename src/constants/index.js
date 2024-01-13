@@ -73,22 +73,18 @@ export const categoriesData = [
 export const categoriesNewStyle = [
   {
     id: 1,
-    title: "Cappuccino",
+    title: "All",
   },
   {
     id: 2,
-    title: "Latte",
+    title: "Popular",
   },
   {
     id: 3,
-    title: "Espresso",
+    title: "Recommended",
   },
   {
     id: 4,
-    title: "Mocha",
-  },
-  {
-    id: 5,
-    title: "Americano",
+    title: "Other",
   },
 ];

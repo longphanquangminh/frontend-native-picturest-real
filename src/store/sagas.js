@@ -1,18 +1,35 @@
 import { takeEvery, put, call } from "redux-saga/effects";
 import axios from "axios";
+import { BASE_URL } from "../api/config";
 
-function* fetchDataSaga() {
+function* loginSaga(action) {
   try {
-    yield put({ type: "FETCH_DATA_REQUEST" });
-    const response = yield call(() => axios.get("https://jsonplaceholder.typicode.com/posts/1"));
-    yield put({ type: "FETCH_DATA_SUCCESS", payload: response.data });
+    yield put({ type: "LOGIN_REQUEST" });
+    const response = yield call(() => axios.post(`${BASE_URL}/login`, action.payload));
+    yield put({ type: "LOGIN_SUCCESS", payload: response.data });
   } catch (error) {
-    yield put({ type: "FETCH_DATA_FAILURE", payload: error.message });
+    yield put({ type: "LOGIN_FAILURE", payload: error.message });
   }
 }
 
+function* registerSaga(action) {
+  try {
+    yield put({ type: "REGISTER_REQUEST" });
+    const response = yield call(() => axios.post(`${BASE_URL}/register`, action.payload));
+    yield put({ type: "REGISTER_SUCCESS", payload: response.data });
+  } catch (error) {
+    yield put({ type: "REGISTER_FAILURE", payload: error.message });
+  }
+}
+
+function* logoutSaga() {
+  yield put({ type: "LOGOUT" });
+}
+
 function* rootSaga() {
-  yield takeEvery("FETCH_DATA", fetchDataSaga);
+  yield takeEvery("LOGIN", loginSaga);
+  yield takeEvery("REGISTER", registerSaga);
+  yield takeEvery("LOGOUT", logoutSaga);
 }
 
 export default rootSaga;

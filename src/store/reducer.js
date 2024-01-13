@@ -1,27 +1,37 @@
 import { combineReducers } from "redux";
+import { getItem, setItem } from "../utils/asyncStorage";
 
 const initialState = {
-  user: null,
-  data: null,
+  userInfo: getItem("userInfo") ? getItem("userInfo") : null,
   loading: false,
   error: null,
+  token: getItem("token") ? getItem("token") : null,
 };
 
-const dataReducer = (state = initialState, action) => {
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "FETCH_DATA_REQUEST":
+    case "LOGIN_REQUEST":
+    case "REGISTER_REQUEST":
       return { ...state, loading: true, error: null };
-    case "FETCH_DATA_SUCCESS":
-      return { ...state, loading: false, data: action.payload };
-    case "FETCH_DATA_FAILURE":
+    case "LOGIN_SUCCESS":
+      // setItem("token", action.payload.content.token);
+      // setItem("userInfo", action.payload.content.userInfo);
+      return { ...state, loading: false, token: action.payload.content.token, userInfo: action.payload.content.userInfo, error: null };
+    case "REGISTER_SUCCESS":
+      return { ...state, loading: false, userInfo: action.payload, error: null };
+    case "LOGIN_FAILURE":
+    case "REGISTER_FAILURE":
+      console.log(action.payload);
       return { ...state, loading: false, error: action.payload };
+    case "LOGOUT":
+      return { ...state, loading: false, error: null, token: null, userInfo: null };
     default:
       return state;
   }
 };
 
 const rootReducer = combineReducers({
-  data: dataReducer,
+  user: userReducer,
 });
 
 export default rootReducer;
