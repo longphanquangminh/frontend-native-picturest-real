@@ -129,9 +129,9 @@ export default function HomeScreen() {
               <MagnifyingGlassIcon size='25' strokeWidth={2} color='white' />
             </TouchableOpacity>
           </View>
-          <View style={{ backgroundColor: themeColors.bgLight }} className='p-3 rounded-full'>
+          <TouchableOpacity style={{ backgroundColor: themeColors.bgLight }} className='p-3 rounded-full'>
             <Icon.Sliders height={20} width={20} strokeWidth='2.5' stroke='white' />
-          </View>
+          </TouchableOpacity>
         </View>
 
         {/* categories */}
