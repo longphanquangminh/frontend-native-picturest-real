@@ -11,6 +11,7 @@ import CustomDrawerContent from "../components/customDrawerContent";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Categories from "../components/categories";
 import SortCategories from "../components/sortCategories";
+import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 export default function HomeScreen() {
   const [activeCategory, setActiveCategory] = useState("Beef");
@@ -105,19 +106,29 @@ export default function HomeScreen() {
         </View>
 
         {/* search bar */}
-        <View className='mx-4 flex-row items-center rounded-full bg-black/5 p-[6px]'>
+        {/* <View className='mx-4 flex-row items-center rounded-full bg-black/5 p-[6px]'>
           <TextInput
             placeholder='Search any pictures'
             placeholderTextColor={"gray"}
             style={{ fontSize: hp(1.7) }}
             className='flex-1 text-base mb-1 pl-3 tracking-wider'
           />
-          {/* <View className='bg-white rounded-full p-3'>
-            <MagnifyingGlassIcon size={hp(2.5)} strokeWidth={3} color='gray' />
-          </View> */}
           <TouchableOpacity className='rounded-full p-2' style={{ backgroundColor: themeColors.bgLight }}>
             <MagnifyingGlassIcon size='25' strokeWidth={2} color='white' />
           </TouchableOpacity>
+        </View> */}
+        <View className='flex-row items-center space-x-2 px-4 pb-2 '>
+          <View className='flex-row flex-1 items-center p-3 rounded-full border border-gray-300'>
+            <Icon.Search height='25' width='25' stroke='gray' />
+            <TextInput placeholder='Resturants' className='ml-2 flex-1' keyboardType='default' />
+            <View className='flex-row items-center space-x-1 border-0 border-l-2 pl-2 border-l-gray-300'>
+              <Icon.MapPin height='20' width='20' stroke='gray' />
+              <Text className='text-gray-600'>New York, NYC</Text>
+            </View>
+          </View>
+          <View style={{ backgroundColor: themeColors.bgLight }} className='p-3 rounded-full'>
+            <Icon.Sliders height={20} width={20} strokeWidth='2.5' stroke='white' />
+          </View>
         </View>
 
         {/* categories */}
