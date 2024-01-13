@@ -4,13 +4,26 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import RecipeDetailScreen from "../screens/RecipeDetailScreen";
-import { HomeIcon as HomeOutline, HeartIcon as HeartOutline, ShoppingBagIcon as BagOutline } from "react-native-heroicons/outline";
-import { HomeIcon as HomeSolid, HeartIcon as HeartSolid, ShoppingBagIcon as BagSolid } from "react-native-heroicons/solid";
+import {
+  HomeIcon as HomeOutline,
+  HeartIcon as HeartOutline,
+  ShoppingBagIcon as BagOutline,
+  UserCircleIcon as UserOutline,
+  CameraIcon as CameraOutline,
+} from "react-native-heroicons/outline";
+import {
+  HomeIcon as HomeSolid,
+  HeartIcon as HeartSolid,
+  ShoppingBagIcon as BagSolid,
+  UserCircleIcon as UserSolid,
+  CameraIcon as CameraSolid,
+} from "react-native-heroicons/solid";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { themeColors } from "../theme";
 import { Platform, Text, View } from "react-native";
 import { getItem } from "../utils/asyncStorage.js";
 import OnboardingScreen from "../screens/OnboardingScreen.js";
+import LoginScreen from "../screens/LoginScreen.js";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -22,9 +35,9 @@ const menuIcons = (route, focused) => {
   if (route.name === "home") {
     icon = focused ? <HomeSolid size='30' color={themeColors.bgLight} /> : <HomeOutline size='30' strokeWidth={2} color='white' />;
   } else if (route.name === "favourite") {
-    icon = focused ? <HeartSolid size='30' color={themeColors.bgLight} /> : <HeartOutline size='30' strokeWidth={2} color='white' />;
+    icon = focused ? <CameraSolid size='30' color={themeColors.bgLight} /> : <CameraOutline size='30' strokeWidth={2} color='white' />;
   } else if (route.name === "cart") {
-    icon = focused ? <BagSolid size='30' color={themeColors.bgLight} /> : <BagOutline size='30' strokeWidth={2} color='white' />;
+    icon = focused ? <UserSolid size='30' color={themeColors.bgLight} /> : <UserOutline size='30' strokeWidth={2} color='white' />;
   }
 
   let buttonClass = focused ? "bg-white" : "";
@@ -55,7 +68,7 @@ function HomeTabs() {
     >
       <Tab.Screen name='home' component={HomeScreen} />
       <Tab.Screen name='favourite' component={HomeScreen} />
-      <Tab.Screen name='cart' component={HomeScreen} />
+      <Tab.Screen name='cart' component={LoginScreen} />
     </Tab.Navigator>
   );
 }

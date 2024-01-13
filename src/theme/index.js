@@ -12,4 +12,5 @@ export const themeColors = {
   bgOnBoard2: "#feeeae",
   bgOnBoard3: "#fde37c",
   bgOnBoard4: "#fdde63",
+  bg: "#877dfa",
 };
