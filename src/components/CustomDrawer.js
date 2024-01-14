@@ -4,11 +4,12 @@ import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawe
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import { useNavigation } from "@react-navigation/native";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { useSelector, connect } from "react-redux";
 
 const CustomDrawer = props => {
   const navigation = useNavigation();
+  const [demo, setDemo] = React.useState(false);
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: "#8200d6" }}>
@@ -40,7 +41,12 @@ const CustomDrawer = props => {
         </View>
       </DrawerContentScrollView>
       <View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}>
-        <TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
+        <TouchableOpacity
+          onPress={() => {
+            setDemo(!demo);
+          }}
+          style={{ paddingVertical: 15 }}
+        >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Ionicons name='share-social-outline' size={22} />
             <Text
@@ -49,14 +55,15 @@ const CustomDrawer = props => {
                 marginLeft: 5,
               }}
             >
-              Tell a Friend {props.userInfo?.nguoiDungId ? "🎁" : ""}
+              Tell a {demo ? "Friend" : "Kid"} {props.userInfo ? "🎁" : ""}
             </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            if (props.userInfo?.nguoiDungId) {
+            if (props.userInfo) {
               props.logout();
+              navigation.navigate("Login");
             } else {
               navigation.navigate("Login");
             }
@@ -71,7 +78,7 @@ const CustomDrawer = props => {
                 marginLeft: 5,
               }}
             >
-              {props.userInfo?.nguoiDungId ? "Sign out" : "Sign in"}
+              {props.userInfo ? "Sign out" : "Sign in"}
             </Text>
           </View>
         </TouchableOpacity>

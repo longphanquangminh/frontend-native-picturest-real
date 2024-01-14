@@ -23,7 +23,11 @@ function* registerSaga(action) {
 }
 
 function* logoutSaga() {
-  yield put({ type: "LOGOUT" });
+  try {
+    yield put({ type: "LOGOUT_OK" });
+  } catch (error) {
+    yield put({ type: "LOGOUT_FAILURE", payload: error.message });
+  }
 }
 
 function* rootSaga() {
