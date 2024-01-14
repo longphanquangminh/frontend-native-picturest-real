@@ -9,7 +9,6 @@ import { useSelector, connect } from "react-redux";
 
 const CustomDrawer = props => {
   const navigation = useNavigation();
-  const [demo, setDemo] = React.useState(false);
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: "#8200d6" }}>
@@ -41,12 +40,7 @@ const CustomDrawer = props => {
         </View>
       </DrawerContentScrollView>
       <View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}>
-        <TouchableOpacity
-          onPress={() => {
-            setDemo(!demo);
-          }}
-          style={{ paddingVertical: 15 }}
-        >
+        <TouchableOpacity style={{ paddingVertical: 15 }}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Ionicons name='share-social-outline' size={22} />
             <Text
@@ -55,7 +49,7 @@ const CustomDrawer = props => {
                 marginLeft: 5,
               }}
             >
-              Tell a {demo ? "Friend" : "Kid"} {props.userInfo ? "🎁" : ""}
+              Tell your friends
             </Text>
           </View>
         </TouchableOpacity>
@@ -63,7 +57,9 @@ const CustomDrawer = props => {
           onPress={() => {
             if (props.userInfo) {
               props.logout();
-              navigation.navigate("Login");
+              navigation.dispatch(DrawerActions.closeDrawer());
+              // navigation.navigate("Home");
+              // navigation.navigate("Login");
             } else {
               navigation.navigate("Login");
             }

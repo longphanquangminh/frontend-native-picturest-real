@@ -89,7 +89,7 @@ export default function Home() {
         {/* greetings and punchline */}
         <View className='mx-4 space-y-2 mb-2'>
           <Text style={{ fontSize: hp(1.7) }} className='text-neutral-600'>
-            Good {timeOfDay}, photo addict!
+            Good {timeOfDay}, photo addict! demo
           </Text>
           <View>
             <Text style={{ fontSize: hp(3.8) }} className='font-semibold text-neutral-600'>

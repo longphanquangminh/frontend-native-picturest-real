@@ -14,8 +14,8 @@ function LoginScreen({ loading, error, login }) {
   const showToast = () => {
     Toast.show({
       type: "success",
-      text1: "Register successfully!",
-      text2: "Welcome newcomer 👋 Please login!",
+      text1: "Login successfully!",
+      text2: "Welcome back 👋",
     });
   };
   const handleLogin = () => {

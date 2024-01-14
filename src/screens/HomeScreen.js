@@ -14,7 +14,9 @@ import Categories from "../components/categories";
 import SortCategories from "../components/sortCategories";
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 export default function HomeScreen() {
+  const navigation = useNavigation();
   const [activeCategory, setActiveCategory] = useState("Beef");
   const [categories, setCategories] = useState([]);
   const [meals, setMeals] = useState([]);
@@ -88,7 +90,13 @@ export default function HomeScreen() {
         {/* avatar and bell icon */}
         <View className='mx-4 flex-row justify-between items-center mb-2'>
           {/* <Image source={require("../../assets/images/avatar.png")} style={{ height: hp(5), width: hp(5.5) }} /> */}
-          <Bars3CenterLeftIcon color={themeColors.textIcon} size='30' />
+          <Bars3CenterLeftIcon
+            onPress={() => {
+              navigation.dispatch(DrawerActions.openDrawer());
+            }}
+            color={themeColors.textIcon}
+            size='30'
+          />
           <BellIcon size={hp(4)} color='gray' />
         </View>
 
