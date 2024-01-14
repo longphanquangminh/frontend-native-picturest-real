@@ -17,10 +17,11 @@ import { capitalizeString } from "../helpers/capitalizeString";
 import { themeColors } from "../theme";
 import AnimatedLottieView from "lottie-react-native";
 import Toast from "react-native-toast-message";
+import { connect } from "react-redux";
 
 const ios = Platform.OS == "ios";
 
-export default function RecipeDetailScreen(props) {
+function RecipeDetailScreen(props) {
   const showToast = () => {
     Toast.show({
       type: "success",
@@ -168,12 +169,20 @@ export default function RecipeDetailScreen(props) {
             //   })
             // }
             onPress={() => {
-              if (!isFavourite) {
-                showToast();
+              if (props.userInfo) {
+                if (!isFavourite) {
+                  showToast();
+                } else {
+                  showToastUnsave();
+                }
+                setIsFavourite(!isFavourite);
               } else {
-                showToastUnsave();
+                Toast.show({
+                  type: "info",
+                  text1: "Please login first!",
+                  text2: "You need to login to use this feature!",
+                });
               }
-              setIsFavourite(!isFavourite);
             }}
             className='p-2 rounded-full mr-5 bg-white'
           >
@@ -382,3 +391,9 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
   },
 });
+
+const mapStateToProps = state => ({
+  userInfo: state.user.userInfo,
+});
+
+export default connect(mapStateToProps)(RecipeDetailScreen);

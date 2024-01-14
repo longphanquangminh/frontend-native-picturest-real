@@ -5,7 +5,8 @@ import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawe
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-import { useSelector, connect } from "react-redux";
+import { connect } from "react-redux";
+import Toast from "react-native-toast-message";
 
 const CustomDrawer = props => {
   const navigation = useNavigation();
@@ -58,6 +59,11 @@ const CustomDrawer = props => {
             if (props.userInfo) {
               props.logout();
               navigation.dispatch(DrawerActions.closeDrawer());
+              Toast.show({
+                type: "success",
+                text1: "Logout successfully!",
+                text2: "Hope to see you again 👋",
+              });
               // navigation.navigate("Home");
               // navigation.navigate("Login");
             } else {
