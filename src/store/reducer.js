@@ -1,11 +1,17 @@
 import { combineReducers } from "redux";
 import { getItem, removeItem, setItem } from "../utils/asyncStorage";
 
+const returnToken = async key => {
+  const token = (await getItem(key)) ? await getItem(key) : null;
+  console.log("tokenxx: ", token);
+  return token;
+};
+
 const initialState = {
-  userInfo: getItem("userInfo") ? getItem("userInfo") : null,
+  userInfo: returnToken("userInfo"),
   loading: false,
   error: null,
-  token: getItem("token") ? getItem("token") : null,
+  token: returnToken("token"),
 };
 
 const userReducer = (state = initialState, action) => {
@@ -22,8 +28,8 @@ const userReducer = (state = initialState, action) => {
     case "REGISTER_REQUEST":
       return { ...state, loading: true, error: null };
     case "LOGIN_SUCCESS":
-      // setItem("token", action.payload.content.token);
-      // setItem("userInfo", action.payload.content.userInfo);
+      setItem("token", action.payload.content.token);
+      setItem("userInfo", action.payload.content.userInfo);
       return { ...state, loading: false, token: action.payload.content.token, userInfo: action.payload.content.userInfo, error: null };
     case "REGISTER_SUCCESS":
       return { ...state, loading: false, userInfo: action.payload, error: null };

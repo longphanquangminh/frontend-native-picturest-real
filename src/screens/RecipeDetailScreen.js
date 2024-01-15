@@ -11,7 +11,7 @@ import Loading from "../components/loading";
 import Animated, { FadeInDown, FadeIn } from "react-native-reanimated";
 import { Platform } from "react-native";
 import * as Linking from "expo-linking";
-import { BASE_URL, BASE_URL_IMG } from "../api/config";
+import { BASE_URL, BASE_URL_IMG, https } from "../api/config";
 import { fallbackImage } from "../constants";
 import { capitalizeString } from "../helpers/capitalizeString";
 import { themeColors } from "../theme";
@@ -176,6 +176,24 @@ function RecipeDetailScreen(props) {
                   showToastUnsave();
                 }
                 setIsFavourite(!isFavourite);
+                axios
+                  .post(
+                    `${BASE_URL}/saved/${item.hinhId}`,
+                    {},
+                    {
+                      headers: {
+                        token: props.token,
+                      },
+                    },
+                  )
+                  .then(() => {
+                    // getMealData(item.hinhId);
+                  })
+                  .catch(err => {
+                    console.log(props.token);
+                    console.log(parseInt(item.hinhId));
+                    console.log(err);
+                  });
               } else {
                 Toast.show({
                   type: "info",
@@ -394,6 +412,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   userInfo: state.user.userInfo,
+  token: state.user.token,
 });
 
 export default connect(mapStateToProps)(RecipeDetailScreen);
