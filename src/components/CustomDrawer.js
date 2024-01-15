@@ -10,8 +10,8 @@ import Toast from "react-native-toast-message";
 
 const CustomDrawer = props => {
   const navigation = useNavigation();
-  console.log("s", props.userInfo);
-  console.log("s", props.token);
+  // console.log("s", props.userInfo);
+  // console.log("s", props.token);
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: "#8200d6" }}>
@@ -82,7 +82,7 @@ const CustomDrawer = props => {
                 marginLeft: 5,
               }}
             >
-              {props.userInfo ? `Sign out ${props.userInfo.email}` : "Sign in"}
+              {props.userInfo ? `Sign out` : "Sign in"}
             </Text>
           </View>
         </TouchableOpacity>

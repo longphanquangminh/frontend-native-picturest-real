@@ -8,10 +8,13 @@ const returnToken = async key => {
 };
 
 const initialState = {
-  userInfo: returnToken("userInfo"),
+  // userInfo: returnToken("userInfo"),
+  userInfo: null,
   loading: false,
   error: null,
-  token: returnToken("token"),
+  // token: returnToken("token"),
+  token: null,
+  onBoardShowing: true,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -36,7 +39,7 @@ const userReducer = (state = initialState, action) => {
     case "LOGIN_FAILURE":
     case "REGISTER_FAILURE":
     case "LOGOUT_FAILURE":
-      console.log(action.payload);
+      // console.log(action.payload);
       return { ...state, loading: false, error: action.payload };
     default:
       return state;
