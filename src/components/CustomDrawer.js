@@ -26,7 +26,11 @@ const CustomDrawer = props => {
         <ImageBackground source={require("../../assets/images/menu-bg.jpeg")} style={{ padding: 20 }}>
           {props.userInfo ? (
             <Image
-              source={error || props.userInfo?.anhDaiDien ? "../../assets/images/picturest-logo.png" : `${BASE_URL_IMG}/${props.userInfo.anhDaiDien}`}
+              source={
+                error || !props.userInfo?.anhDaiDien
+                  ? require("../../assets/images/picturest-logo.png")
+                  : { uri: `${BASE_URL_IMG}/${props.userInfo.anhDaiDien}` }
+              }
               onError={onImageError}
               style={{ height: 80, width: 80, borderRadius: 40, marginBottom: 10 }}
             />
