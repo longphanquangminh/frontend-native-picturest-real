@@ -7,16 +7,32 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
 import Toast from "react-native-toast-message";
+import { capitalizeString } from "../helpers/capitalizeString";
+import { BASE_URL_IMG } from "../api/config";
+import { useState } from "react";
 
 const CustomDrawer = props => {
   const navigation = useNavigation();
   // console.log("s", props.userInfo);
   // console.log("s", props.token);
+  const [error, setError] = useState(false);
+
+  const onImageError = () => {
+    setError(true);
+  };
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: "#8200d6" }}>
         <ImageBackground source={require("../../assets/images/menu-bg.jpeg")} style={{ padding: 20 }}>
-          <Image source={require("../../assets/images/picturest-logo.png")} style={{ height: 80, width: 80, borderRadius: 40, marginBottom: 10 }} />
+          {props.userInfo ? (
+            <Image
+              source={error || props.userInfo?.anhDaiDien ? "../../assets/images/picturest-logo.png" : `${BASE_URL_IMG}/${props.userInfo.anhDaiDien}`}
+              onError={onImageError}
+              style={{ height: 80, width: 80, borderRadius: 40, marginBottom: 10 }}
+            />
+          ) : (
+            <View style={{ height: 80, width: 80, marginBottom: 10 }}></View>
+          )}
           <Text
             style={{
               color: "#fff",
@@ -24,10 +40,10 @@ const CustomDrawer = props => {
               marginBottom: 5,
             }}
           >
-            John Doe
+            {props.userInfo && capitalizeString(props.userInfo.hoTen)}
           </Text>
           <View style={{ flexDirection: "row" }}>
-            <Text
+            {/* <Text
               style={{
                 color: "#fff",
                 marginRight: 5,
@@ -35,7 +51,7 @@ const CustomDrawer = props => {
             >
               280 Coins
             </Text>
-            <FontAwesome5 name='coins' size={14} color='#fff' />
+            <FontAwesome5 name='coins' size={14} color='#fff' /> */}
           </View>
         </ImageBackground>
         <View style={{ flex: 1, backgroundColor: "#fff", paddingTop: 10 }}>

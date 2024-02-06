@@ -35,7 +35,7 @@ const userReducer = (state = initialState, action) => {
       setItem("userInfo", action.payload.content.userInfo);
       return { ...state, loading: false, token: action.payload.content.token, userInfo: action.payload.content.userInfo, error: null };
     case "REGISTER_SUCCESS":
-      return { ...state, loading: false, userInfo: action.payload, error: null };
+      return { ...state, loading: false, error: null };
     case "LOGIN_FAILURE":
     case "REGISTER_FAILURE":
     case "LOGOUT_FAILURE":

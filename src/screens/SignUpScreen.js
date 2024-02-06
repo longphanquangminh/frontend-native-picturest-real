@@ -7,7 +7,6 @@ import { useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
 import Toast from "react-native-toast-message";
 
-// subscribe for more videos like this :)
 function SignUpScreen({ loading, error, register }) {
   const navigation = useNavigation();
   const [username, setUsername] = useState("");
