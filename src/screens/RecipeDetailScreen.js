@@ -38,10 +38,25 @@ function RecipeDetailScreen(props) {
   };
   let item = props.route.params;
   const [isFavourite, setIsFavourite] = useState(false);
+  const checkUserSave = () => {
+    axios
+      .get(`${BASE_URL}/saved/${item.hinhId}`, {
+        headers: {
+          token: props.token,
+        },
+      })
+      .then(res => {
+        setIsFavourite(res.data.content.saved);
+      })
+      .catch(err => console.log(err));
+  };
   const heartRef = useRef(null);
 
   useEffect(() => {
     heartRef?.current?.play(0, 30);
+    if (props.userInfo) {
+      checkUserSave();
+    }
   }, []);
 
   const handleLike = () => {
