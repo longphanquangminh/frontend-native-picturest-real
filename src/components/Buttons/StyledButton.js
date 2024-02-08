@@ -2,14 +2,7 @@ import { StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import { colors } from "../../config/theme";
 import StyledText from "../Texts/StyledText";
 
-const StyledButton = ({
-  children,
-  style,
-  textStyle,
-  isLoading,
-  disabled,
-  ...props
-}) => {
+const StyledButton = ({ children, style, textStyle, isLoading, disabled, ...props }) => {
   return (
     <TouchableOpacity
       style={[
@@ -24,13 +17,7 @@ const StyledButton = ({
       disabled={disabled || isLoading}
       {...props}
     >
-      <StyledText style={textStyle}>
-        {isLoading ? (
-          <ActivityIndicator size="small" color={colors.tint} />
-        ) : (
-          children
-        )}
-      </StyledText>
+      <StyledText style={textStyle}>{isLoading ? <ActivityIndicator size='small' color={colors.tint} /> : children}</StyledText>
     </TouchableOpacity>
   );
 };

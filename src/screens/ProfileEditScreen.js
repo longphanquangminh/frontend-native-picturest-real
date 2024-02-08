@@ -8,6 +8,7 @@ import StyledTextInput from "../components/Inputs/StyledTextInput";
 import Avatar from "../components/Profile/Avatar";
 import StyledButton from "../components/Buttons/StyledButton";
 import UploadModal from "../components/Profile/UploadModal";
+import Toast from "react-native-toast-message";
 
 // for uploading image to backend
 // const FormData = global.FormData;
@@ -62,7 +63,12 @@ const ProfileEditScreen = ({ route }) => {
       // sendToBackend();
 
       setSavingChanges(false);
-      navigation.navigate("Profile");
+      navigation.goBack();
+      Toast.show({
+        type: "success",
+        text1: "Edit successfully!",
+        text2: "Your profile has been saved ✅",
+      });
     } catch ({ message }) {
       alert(message);
       setSavingChanges(false);
@@ -111,7 +117,7 @@ const ProfileEditScreen = ({ route }) => {
       <Avatar uri={image} onButtonPress={() => setModalVisible(true)} />
       <StyledTextInput placeholder='Full Name' icon='account-outline' label='Full Name' value={fullName} onChangeText={setFullName} />
 
-      <StyledTextInput placeholder='A proud web dev' icon='account-details-outline' label='Bio' multiline={true} value={bio} onChangeText={setBio} />
+      {/* <StyledTextInput placeholder='A proud web dev' icon='account-details-outline' label='Bio' multiline={true} value={bio} onChangeText={setBio} /> */}
 
       <StyledTextInput
         placeholder='jbrown@hotmail.com'
@@ -122,7 +128,7 @@ const ProfileEditScreen = ({ route }) => {
         onChangeText={setEmail}
       />
 
-      <StyledTextInput
+      {/* <StyledTextInput
         placeholder='+6794833883'
         icon='phone-outline'
         label='Phone Number'
@@ -131,9 +137,9 @@ const ProfileEditScreen = ({ route }) => {
         onChangeText={setPhone}
       />
 
-      <StyledTextInput placeholder='Gulf of Guinea' icon='map-marker-outline' label='Location' value={location} onChangeText={setLocation} />
+      <StyledTextInput placeholder='Gulf of Guinea' icon='map-marker-outline' label='Location' value={location} onChangeText={setLocation} /> */}
 
-      <StyledButton isLoading={savingChanges} onPress={saveChanges}>
+      <StyledButton textStyle={{ color: "white", fontWeight: "bold" }} isLoading={savingChanges} onPress={saveChanges}>
         Save Changes
       </StyledButton>
 
@@ -153,8 +159,9 @@ const ProfileEditScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 10,
-    paddingBottom: 25,
+    paddingBottom: 90,
     paddingHorizontal: 25,
+    marginTop: 50,
   },
 });
 

@@ -9,9 +9,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const onIOS = Platform.OS == "ios";
 
 const StyledTextInput = ({ label, icon, style, multiline, ...props }) => {
-  const [inputBackgroundColor, setInputBackgroundColor] = useState(
-    colors.secondary
-  );
+  const [inputBackgroundColor, setInputBackgroundColor] = useState(colors.secondary);
 
   const customOnBlur = () => {
     props?.onBlur;
@@ -25,9 +23,11 @@ const StyledTextInput = ({ label, icon, style, multiline, ...props }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.leftIcon}>
-        <MaterialCommunityIcons name={icon} size={30} color={colors.accent} />
-      </View>
+      {icon && (
+        <View style={styles.leftIcon}>
+          <MaterialCommunityIcons name={icon} size={30} color={colors.accent} />
+        </View>
+      )}
 
       <StyledText small>{label} </StyledText>
 
@@ -47,6 +47,7 @@ const StyledTextInput = ({ label, icon, style, multiline, ...props }) => {
             borderColor: colors.gray1,
             backgroundColor: inputBackgroundColor,
             paddingRight: 15,
+            paddingLeft: icon ? 55 : 15,
           },
           style,
         ]}
@@ -64,7 +65,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   inputField: {
-    paddingLeft: 55,
     paddingRight: 55,
     borderRadius: 15,
     fontSize: 16,

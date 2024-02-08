@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { connect } from "react-redux";
 import PleaseLoginScreen from "./PleaseLoginScreen";
 import { View, StyleSheet } from "react-native";
@@ -13,8 +13,9 @@ import ProfileInfo from "../components/Profile/ProfileInfo";
 import ProfileButton from "../components/Profile/ProfileButton";
 import UploadModal from "../components/Profile/UploadModal";
 import { useState } from "react";
+import Toast from "react-native-toast-message";
 
-function UserScreen({ userInfo, token }) {
+function UserScreen({ userInfo, token, logout }) {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = useState();
@@ -115,21 +116,21 @@ function UserScreen({ userInfo, token }) {
     <MainContainer style={styles.container}>
       <Avatar onButtonPress={() => setModalVisible(true)} uri={image} />
       <StyledText big bold style={[styles.text, { marginBottom: 10 }]}>
-        Richard Barnes
+        {userInfo.hoTen}
       </StyledText>
-      <StyledText style={[styles.text, { marginBottom: 5 }]}>22 year old dev from the Country Side</StyledText>
+      {/* <StyledText style={[styles.text, { marginBottom: 5 }]}>Photo addict</StyledText> */}
       <StyledText small style={[styles.text, { color: colors.tertiary }]}>
-        Active since - Aug, 2022
+        Active since – 2023
       </StyledText>
       <SectionHead
         option='Edit'
         style={{ marginTop: 20 }}
         onPress={() =>
           navigation.navigate("ProfileEdit", {
-            id: 1,
-            fullName: "Richard Barnes",
+            id: userInfo.nguoiDungId,
+            fullName: userInfo.hoTen,
             bio: "22 year old dev from the Country Side",
-            email: "richbarnes@gmail.com",
+            email: userInfo.email,
             phone: "+71138474930",
             location: "Country Side",
             joinDate: "Aug, 2022",
@@ -141,20 +142,31 @@ function UserScreen({ userInfo, token }) {
       </SectionHead>
       <View style={styles.section}>
         <ProfileInfo label='Email' icon='email-outline'>
-          <StyledText>richbarnes@gmail.com</StyledText>
+          <StyledText>{userInfo.email}</StyledText>
         </ProfileInfo>
-        <ProfileInfo label='Phone' icon='phone-outline'>
+        {/* <ProfileInfo label='Phone' icon='phone-outline'>
           <StyledText>+71138474930</StyledText>
         </ProfileInfo>
         <ProfileInfo label='Location' icon='map-marker-outline'>
           <StyledText>Country Side</StyledText>
-        </ProfileInfo>
+        </ProfileInfo> */}
       </View>
       <SectionHead style={{ marginTop: 20 }}>Utilities</SectionHead>
       <View style={styles.section}>
-        <ProfileButton label='Downloads' icon='download-outline' />
+        {/* <ProfileButton label='Downloads' icon='download-outline' /> */}
         <ProfileButton label='Help' icon='help-circle-outline' />
-        <ProfileButton label='Log Out' icon='logout-variant' onPress={onLogout} />
+        <ProfileButton
+          label='Log Out'
+          icon='logout-variant'
+          onPress={() => {
+            logout();
+            Toast.show({
+              type: "success",
+              text1: "Logout successfully!",
+              text2: "Hope to see you again 👋",
+            });
+          }}
+        />
       </View>
       <UploadModal
         modalVisible={modalVisible}
@@ -174,8 +186,9 @@ function UserScreen({ userInfo, token }) {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 10,
-    paddingBottom: 25,
+    paddingBottom: 180,
     paddingHorizontal: 25,
+    marginTop: 50,
   },
   section: {
     borderRadius: 15,
@@ -194,7 +207,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  login: credentials => dispatch({ type: "LOGIN", payload: credentials }),
+  logout: () => dispatch({ type: "LOGOUT" }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserScreen);

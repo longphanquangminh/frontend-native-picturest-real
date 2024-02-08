@@ -7,7 +7,7 @@ import { colors } from "../../config/theme";
 // components
 import StyledText from "../Texts/StyledText";
 
-const UploadModal = ({ modalVisible, onBackPress, onCameraPress, onGalleryPress, onRemovePress, isLoading = false }) => {
+const UploadModal = ({ title = "Profile Photo", modalVisible, onBackPress, onCameraPress, onGalleryPress, onRemovePress, isLoading = false }) => {
   return (
     <Modal animationType='slide' visible={modalVisible} transparent={true}>
       <Pressable style={styles.container} onPress={onBackPress}>
@@ -16,7 +16,7 @@ const UploadModal = ({ modalVisible, onBackPress, onCameraPress, onGalleryPress,
         {!isLoading && (
           <View style={[styles.modalView, { backgroundColor: colors.primary }]}>
             <StyledText big style={{ marginBottom: 10 }}>
-              Profile Photo
+              {title}
             </StyledText>
 
             <View style={styles.decisionRow}>
