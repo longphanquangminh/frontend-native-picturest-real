@@ -25,6 +25,9 @@ import { getItem } from "../utils/asyncStorage.js";
 import OnboardingScreen from "../screens/OnboardingScreen.js";
 import LoginScreen from "../screens/LoginScreen.js";
 import SignUpScreen from "../screens/SignUpScreen.js";
+import UserScreen from "../screens/UserScreen";
+import UploadImageScreen from "../screens/UploadImageScreen.js";
+import ProfileEditScreen from "../screens/ProfileEditScreen.js";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -68,8 +71,8 @@ function HomeTabs() {
       })}
     >
       <Tab.Screen name='home' component={HomeScreen} />
-      <Tab.Screen name='favourite' component={HomeScreen} />
-      <Tab.Screen name='cart' component={LoginScreen} />
+      <Tab.Screen name='favourite' component={UploadImageScreen} />
+      <Tab.Screen name='cart' component={UserScreen} />
     </Tab.Navigator>
   );
 }
@@ -105,6 +108,7 @@ function AppNavigation() {
       <Stack.Screen name='SignUp' component={SignUpScreen} />
       <Stack.Screen name='Login' component={LoginScreen} />
       <Stack.Screen name='RecipeDetail' options={{ presentation: "fullScreenModal" }} component={RecipeDetailScreen} />
+      <Stack.Screen name='ProfileEdit' component={ProfileEditScreen} options={{ title: "Edit Profile" }} />
     </Stack.Navigator>
   );
   // return (

@@ -411,6 +411,7 @@ function RecipeDetailScreen(props) {
                 </View>
               </Animated.View>
             )} */}
+            {props.userInfo ? <Text>No comments!</Text> : <Text>Please login to comment!</Text>}
           </View>
         )}
       </ScrollView>
