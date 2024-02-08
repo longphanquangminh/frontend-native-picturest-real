@@ -18,6 +18,8 @@ import { themeColors } from "../theme";
 import AnimatedLottieView from "lottie-react-native";
 import Toast from "react-native-toast-message";
 import { connect } from "react-redux";
+import StyledTextInput from "../components/Inputs/StyledTextInput";
+import { KeyboardAvoidingContainer } from "../components/Containers";
 
 const ios = Platform.OS == "ios";
 
@@ -38,6 +40,7 @@ function RecipeDetailScreen(props) {
   };
   let item = props.route.params;
   const [isFavourite, setIsFavourite] = useState(false);
+  const [bio, setBio] = useState("");
   const checkUserSave = () => {
     axios
       .get(`${BASE_URL}/saved/${item.hinhId}`, {
@@ -357,6 +360,13 @@ function RecipeDetailScreen(props) {
               {/* <Text style={{ fontSize: hp(1.6) }} className='text-neutral-700'>
                 {meal?.strInstructions}
               </Text> */}
+              {/* {props.userInfo ? (
+                <KeyboardAvoidingContainer style={styles.container}>
+                  <StyledTextInput placeholder='Write your comment here...' value={bio} onChangeText={setBio} />
+                </KeyboardAvoidingContainer>
+              ) : (
+                <Text>Please login to comment!</Text>
+              )} */}
               {comments.length > 0 ? (
                 comments.map((comment, index) => {
                   const color = index % 2 == 0 ? themeColors.bgOnBoard2 : themeColors.bgOnBoard3;
@@ -411,7 +421,13 @@ function RecipeDetailScreen(props) {
                 </View>
               </Animated.View>
             )} */}
-            {props.userInfo ? <Text>No comments!</Text> : <Text>Please login to comment!</Text>}
+            {props.userInfo ? (
+              <KeyboardAvoidingContainer style={styles.container}>
+                <StyledTextInput placeholder='Write your comment here...' value={bio} onChangeText={setBio} />
+              </KeyboardAvoidingContainer>
+            ) : (
+              <Text>Please login to comment!</Text>
+            )}
           </View>
         )}
       </ScrollView>

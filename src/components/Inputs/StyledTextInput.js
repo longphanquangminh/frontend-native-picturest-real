@@ -29,7 +29,7 @@ const StyledTextInput = ({ label, icon, style, multiline, ...props }) => {
         </View>
       )}
 
-      <StyledText small>{label} </StyledText>
+      {label && <StyledText small>{label} </StyledText>}
 
       <TextInput
         placeholderTextColor={colors.placeholder}
