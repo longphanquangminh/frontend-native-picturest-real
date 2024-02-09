@@ -15,7 +15,20 @@ import SortCategories from "../components/sortCategories";
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-export default function HomeScreen() {
+import { connect } from "react-redux";
+import Toast from "react-native-toast-message";
+function HomeScreen({ searchValue, setSearchValue }) {
+  const handleSearch = () => {
+    if (!searchValue) {
+      Toast.show({
+        type: "error",
+        text1: "No value",
+        text2: "Type something to find pictures!",
+      });
+    } else {
+      navigation.navigate("Search", { searchValue });
+    }
+  };
   const navigation = useNavigation();
   const [activeCategory, setActiveCategory] = useState("Beef");
   const [categories, setCategories] = useState([]);
@@ -134,8 +147,11 @@ export default function HomeScreen() {
               placeholderTextColor={"gray"}
               style={{ fontSize: hp(1.7) }}
               className='flex-1 text-base mb-1 pl-3 tracking-wider'
+              onChangeText={text => {
+                setSearchValue(text);
+              }}
             />
-            <TouchableOpacity className='rounded-full p-2' style={{ backgroundColor: themeColors.bgLight }}>
+            <TouchableOpacity onPress={handleSearch} className='rounded-full p-2' style={{ backgroundColor: themeColors.bgLight }}>
               <MagnifyingGlassIcon size='25' strokeWidth={2} color='white' />
             </TouchableOpacity>
           </View>
@@ -170,3 +186,13 @@ export default function HomeScreen() {
     </View>
   );
 }
+
+const mapStateToProps = state => ({
+  searchValue: state.user.searchValue,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setSearchValue: value => dispatch({ type: "SEARCH", payload: value }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

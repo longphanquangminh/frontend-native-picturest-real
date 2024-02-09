@@ -1,16 +1,16 @@
-import { View, Text, Pressable, Image } from "react-native";
-import React from "react";
+import { View, Text, Pressable } from "react-native";
+import React, { useState } from "react";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import MasonryList from "@react-native-seoul/masonry-list";
-import { mealData } from "../constants";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import Loading from "./loading";
 import { CachedImage } from "../helpers/image";
 import { useNavigation } from "@react-navigation/native";
 import { fallbackImage } from "../constants/index";
 import { BASE_URL_IMG } from "../api/config";
+import { connect } from "react-redux";
 
-export default function Recipes({ title = "Pictures", categories, meals }) {
+function RecipesSearch({ title = "Pictures", categories, meals, loading }) {
   const navigation = useNavigation();
   return (
     <View className='mx-4 space-y-3'>
@@ -18,10 +18,10 @@ export default function Recipes({ title = "Pictures", categories, meals }) {
         {title}
       </Text>
       <View>
-        {categories.length == 0 || meals.length == 0 ? (
-          <>
-            <Loading size='large' className='mt-20' />
-          </>
+        {loading ? (
+          <Loading size='large' className='mt-20' />
+        ) : categories.length == 0 || meals.length == 0 ? (
+          <Text className='text-center mt-20'>No pictures found!</Text>
         ) : (
           <MasonryList
             data={meals}
@@ -73,3 +73,13 @@ const RecipeCard = ({ item, index, navigation }) => {
     </Animated.View>
   );
 };
+
+const mapStateToProps = state => ({
+  loading: state.user.loading,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setSearchValue: value => dispatch({ type: "SEARCH", payload: value }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipesSearch);

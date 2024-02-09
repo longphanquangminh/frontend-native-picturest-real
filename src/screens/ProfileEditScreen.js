@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 
@@ -9,6 +9,7 @@ import Avatar from "../components/Profile/Avatar";
 import StyledButton from "../components/Buttons/StyledButton";
 import UploadModal from "../components/Profile/UploadModal";
 import Toast from "react-native-toast-message";
+import { ArrowLeftIcon } from "react-native-heroicons/solid";
 
 // for uploading image to backend
 // const FormData = global.FormData;
@@ -114,6 +115,11 @@ const ProfileEditScreen = ({ route }) => {
 
   return (
     <KeyboardAvoidingContainer style={styles.container}>
+      <View className='flex-row justify-start'>
+        <TouchableOpacity onPress={() => navigation.goBack()} className='bg-yellow-400 p-2 rounded-tr-2xl rounded-bl-2xl'>
+          <ArrowLeftIcon size='20' color='black' />
+        </TouchableOpacity>
+      </View>
       <Avatar uri={image} onButtonPress={() => setModalVisible(true)} />
       <StyledTextInput placeholder='Full Name' icon='account-outline' label='Full Name' value={fullName} onChangeText={setFullName} />
 

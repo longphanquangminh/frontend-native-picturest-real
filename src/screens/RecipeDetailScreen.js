@@ -24,6 +24,31 @@ import { KeyboardAvoidingContainer } from "../components/Containers";
 const ios = Platform.OS == "ios";
 
 function RecipeDetailScreen(props) {
+  const handleComment = () => {
+    axios
+      .post(
+        `${BASE_URL}/comments/${item.hinhId}`,
+        {
+          noiDung: bio,
+        },
+        {
+          headers: {
+            token: props.token,
+          },
+        },
+      )
+      .then(() => {
+        Toast.show({
+          type: "success",
+          text1: "Comment successfully!",
+          text2: "Your comment has been saved!",
+        });
+        getComments(item.hinhId);
+        setBio("");
+      })
+      .catch(err => console.log(err));
+  };
+
   const showToast = () => {
     Toast.show({
       type: "success",
@@ -42,25 +67,30 @@ function RecipeDetailScreen(props) {
   const [isFavourite, setIsFavourite] = useState(false);
   const [bio, setBio] = useState("");
   const checkUserSave = () => {
-    axios
-      .get(`${BASE_URL}/saved/${item.hinhId}`, {
-        headers: {
-          token: props.token,
-        },
-      })
-      .then(res => {
-        setIsFavourite(res.data.content.saved);
-      })
-      .catch(err => console.log(err));
+    if (props.userInfo) {
+      axios
+        .get(`${BASE_URL}/saved/${item.hinhId}`, {
+          headers: {
+            token: props.token,
+          },
+        })
+        .then(res => {
+          setIsFavourite(res.data.content.saved);
+        })
+        .catch(err => console.log(err));
+    } else {
+      setIsFavourite(false);
+    }
   };
   const heartRef = useRef(null);
 
   useEffect(() => {
     heartRef?.current?.play(0, 30);
-    if (props.userInfo) {
-      checkUserSave();
-    }
   }, []);
+
+  useEffect(() => {
+    checkUserSave();
+  }, [props.userInfo]);
 
   const handleLike = () => {
     if (isFavourite) {
@@ -205,11 +235,9 @@ function RecipeDetailScreen(props) {
                     },
                   )
                   .then(() => {
-                    // getMealData(item.hinhId);
+                    getMealData(item.hinhId);
                   })
                   .catch(err => {
-                    console.log(props.token);
-                    console.log(parseInt(item.hinhId));
                     console.log(err);
                   });
               } else {
@@ -424,7 +452,7 @@ function RecipeDetailScreen(props) {
             {props.userInfo ? (
               <KeyboardAvoidingContainer style={styles.container}>
                 <StyledTextInput placeholder='Write your comment here...' value={bio} onChangeText={setBio} />
-                <TouchableOpacity className='py-3 bg-yellow-400 rounded-xl'>
+                <TouchableOpacity onPress={handleComment} className='py-3 bg-yellow-400 rounded-xl'>
                   <Text className='text-xl font-bold text-center text-gray-700'>Post</Text>
                 </TouchableOpacity>
               </KeyboardAvoidingContainer>

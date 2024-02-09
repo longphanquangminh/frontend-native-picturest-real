@@ -28,6 +28,7 @@ import SignUpScreen from "../screens/SignUpScreen.js";
 import UserScreen from "../screens/UserScreen";
 import UploadImageScreen from "../screens/UploadImageScreen.js";
 import ProfileEditScreen from "../screens/ProfileEditScreen.js";
+import SearchScreen from "../screens/SearchScreen.js";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -107,6 +108,7 @@ function AppNavigation() {
       <Stack.Screen name='Welcome' component={WelcomeScreen} />
       <Stack.Screen name='SignUp' component={SignUpScreen} />
       <Stack.Screen name='Login' component={LoginScreen} />
+      <Stack.Screen name='Search' component={SearchScreen} />
       <Stack.Screen name='RecipeDetail' options={{ presentation: "fullScreenModal" }} component={RecipeDetailScreen} />
       <Stack.Screen name='ProfileEdit' component={ProfileEditScreen} options={{ title: "Edit Profile" }} />
     </Stack.Navigator>

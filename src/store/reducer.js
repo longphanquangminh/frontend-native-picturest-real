@@ -15,6 +15,7 @@ const initialState = {
   // token: returnToken("token"),
   token: null,
   onBoardShowing: true,
+  searchValue: "",
 };
 
 const userReducer = (state = initialState, action) => {
@@ -41,6 +42,10 @@ const userReducer = (state = initialState, action) => {
     case "LOGOUT_FAILURE":
       // console.log(action.payload);
       return { ...state, loading: false, error: action.payload };
+    case "SEARCH":
+      return { ...state, searchValue: action.payload };
+    case "LOADING":
+      return { ...state, loading: action.payload };
     default:
       return state;
   }

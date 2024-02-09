@@ -13,8 +13,6 @@ import { useState } from "react";
 
 const CustomDrawer = props => {
   const navigation = useNavigation();
-  // console.log("s", props.userInfo);
-  // console.log("s", props.token);
   const [error, setError] = useState(false);
 
   const onImageError = () => {

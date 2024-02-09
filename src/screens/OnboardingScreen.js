@@ -40,8 +40,8 @@ export default function OnboardingScreen() {
                 <Lottie source={require("../../assets/animations/boost.json")} autoPlay loop />
               </View>
             ),
-            title: "Boost Productivity",
-            subtitle: "Subscribe this channel to boost your productivity level",
+            title: "Capture Your Moments",
+            subtitle: "Capture life's moments effortlessly. Snap a photo or choose from your gallery!",
           },
           {
             backgroundColor: themeColors.bgOnBoard2,
@@ -50,8 +50,8 @@ export default function OnboardingScreen() {
                 <Lottie source={require("../../assets/animations/work.json")} autoPlay loop />
               </View>
             ),
-            title: "Work Seamlessly",
-            subtitle: "Get your work done seamlessly without interruption",
+            title: "Express Yourself",
+            subtitle: "Time to get creative. Let your imagination run wild!",
           },
           {
             backgroundColor: themeColors.bgOnBoard3,
@@ -60,8 +60,8 @@ export default function OnboardingScreen() {
                 <Lottie source={require("../../assets/animations/achieve.json")} autoPlay loop />
               </View>
             ),
-            title: "Achieve Higher Goals",
-            subtitle: "By boosting your productivity we help you to achieve higher goals",
+            title: "Share & Connect",
+            subtitle: "You're almost there. Share your masterpiece with friends and family!",
           },
         ]}
       />
