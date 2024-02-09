@@ -49,6 +49,8 @@ const userReducer = (state = initialState, action) => {
       return { ...state, loading: action.payload };
     case "POST":
       return { ...state, posted: action.payload };
+    case "EDIT":
+      return { ...state, userInfo: action.payload };
     default:
       return state;
   }

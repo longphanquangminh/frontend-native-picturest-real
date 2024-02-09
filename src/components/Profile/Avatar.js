@@ -4,13 +4,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import placeholder from "../../../assets/images/profile.jpg";
 
-const Avatar = ({ uri, style, imgStyle, onPress, onButtonPress, aviOnly = false, ...props }) => {
+const Avatar = ({ uri, style, imgStyle, onPress, onButtonPress, showChangeButton = true, aviOnly = false, ...props }) => {
   return (
     <View style={[styles.container, { marginBottom: aviOnly ? 0 : 15 }, style]} {...props}>
       <TouchableOpacity onPress={onPress}>
         <Image source={uri ? { uri } : placeholder} style={[styles.image, aviOnly && { height: 35, width: 35, borderWidth: 0 }, imgStyle]} />
 
-        {!aviOnly && (
+        {!aviOnly && showChangeButton && (
           <TouchableOpacity style={styles.editButton} onPress={onButtonPress}>
             <MaterialCommunityIcons name='camera-outline' size={30} color={colors.accent} />
           </TouchableOpacity>

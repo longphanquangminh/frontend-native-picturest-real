@@ -114,7 +114,7 @@ function UserScreen({ userInfo, token, logout }) {
   };
   return userInfo ? (
     <MainContainer style={styles.container}>
-      <Avatar onButtonPress={() => setModalVisible(true)} uri={image} />
+      <Avatar showChangeButton={false} onButtonPress={() => setModalVisible(true)} uri={image} />
       <StyledText big bold style={[styles.text, { marginBottom: 10 }]}>
         {userInfo.hoTen}
       </StyledText>
@@ -125,18 +125,19 @@ function UserScreen({ userInfo, token, logout }) {
       <SectionHead
         option='Edit'
         style={{ marginTop: 20 }}
-        onPress={() =>
-          navigation.navigate("ProfileEdit", {
-            id: userInfo.nguoiDungId,
-            fullName: userInfo.hoTen,
-            bio: "22 year old dev from the Country Side",
-            email: userInfo.email,
-            phone: "+71138474930",
-            location: "Country Side",
-            joinDate: "Aug, 2022",
-            image,
-          })
-        }
+        onPress={() => {
+          // navigation.navigate("ProfileEdit", {
+          //   id: userInfo.nguoiDungId,
+          //   fullName: userInfo.hoTen,
+          //   bio: "22 year old dev from the Country Side",
+          //   email: userInfo.email,
+          //   phone: "+71138474930",
+          //   location: "Country Side",
+          //   joinDate: "Aug, 2022",
+          //   image,
+          // });
+          navigation.navigate("ProfileEdit");
+        }}
       >
         Personal Info
       </SectionHead>

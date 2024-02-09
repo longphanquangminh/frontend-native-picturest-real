@@ -10,11 +10,14 @@ import StyledButton from "../components/Buttons/StyledButton";
 import UploadModal from "../components/Profile/UploadModal";
 import Toast from "react-native-toast-message";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
+import { connect } from "react-redux";
+import axios from "axios";
+import { BASE_URL } from "../api/config";
 
 // for uploading image to backend
 // const FormData = global.FormData;
 
-const ProfileEditScreen = ({ route }) => {
+const ProfileEditScreen = ({ route, token, userInfo, setUserInfo }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = useState(route.params?.image);
@@ -64,12 +67,28 @@ const ProfileEditScreen = ({ route }) => {
       // sendToBackend();
 
       setSavingChanges(false);
-      navigation.goBack();
-      Toast.show({
-        type: "success",
-        text1: "Edit successfully!",
-        text2: "Your profile has been saved ✅",
-      });
+      axios
+        .put(
+          `${BASE_URL}/users/${userInfo.nguoiDungId}`,
+          {
+            hoTen: fullName,
+          },
+          {
+            headers: {
+              token: token,
+            },
+          },
+        )
+        .then(() => {
+          navigation.goBack();
+          Toast.show({
+            type: "success",
+            text1: "Edit successfully!",
+            text2: "Your profile has been saved ✅",
+          });
+          setUserInfo({ ...userInfo, hoTen: fullName });
+        })
+        .catch(err => console.log(err));
     } catch ({ message }) {
       alert(message);
       setSavingChanges(false);
@@ -107,7 +126,7 @@ const ProfileEditScreen = ({ route }) => {
   // };
 
   // inputs
-  const [fullName, setFullName] = useState(route.params?.fullName || "");
+  const [fullName, setFullName] = useState(route.params?.fullName || userInfo.hoTen);
   const [bio, setBio] = useState(route.params?.bio || "");
   const [email, setEmail] = useState(route.params?.email || "");
   const [phone, setPhone] = useState(route.params?.phone || "");
@@ -125,14 +144,14 @@ const ProfileEditScreen = ({ route }) => {
 
       {/* <StyledTextInput placeholder='A proud web dev' icon='account-details-outline' label='Bio' multiline={true} value={bio} onChangeText={setBio} /> */}
 
-      <StyledTextInput
+      {/* <StyledTextInput
         placeholder='jbrown@hotmail.com'
         icon='email-outline'
         label='Email Address'
         keyboardType='email-address'
         value={email}
         onChangeText={setEmail}
-      />
+      /> */}
 
       {/* <StyledTextInput
         placeholder='+6794833883'
@@ -171,4 +190,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileEditScreen;
+const mapStateToProps = state => ({
+  userInfo: state.user.userInfo,
+  token: state.user.token,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setUserInfo: value => dispatch({ type: "EDIT", payload: value }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileEditScreen);
