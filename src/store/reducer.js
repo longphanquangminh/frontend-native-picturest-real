@@ -16,6 +16,7 @@ const initialState = {
   token: null,
   onBoardShowing: true,
   searchValue: "",
+  posted: false,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -46,6 +47,8 @@ const userReducer = (state = initialState, action) => {
       return { ...state, searchValue: action.payload };
     case "LOADING":
       return { ...state, loading: action.payload };
+    case "POST":
+      return { ...state, posted: action.payload };
     default:
       return state;
   }

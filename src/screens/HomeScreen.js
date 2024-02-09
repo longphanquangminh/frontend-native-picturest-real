@@ -17,7 +17,7 @@ import { themeColors } from "../theme";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
 import Toast from "react-native-toast-message";
-function HomeScreen({ searchValue, setSearchValue }) {
+function HomeScreen({ searchValue, setSearchValue, posted }) {
   const handleSearch = () => {
     if (!searchValue) {
       Toast.show({
@@ -63,10 +63,13 @@ function HomeScreen({ searchValue, setSearchValue }) {
 
   useEffect(() => {
     getCategories();
-    getPictures();
     getRecipes();
     checkTime();
   }, []);
+
+  useEffect(() => {
+    getPictures();
+  }, [posted]);
 
   const handleChangeCategory = category => {
     getRecipes(category);
@@ -189,6 +192,7 @@ function HomeScreen({ searchValue, setSearchValue }) {
 
 const mapStateToProps = state => ({
   searchValue: state.user.searchValue,
+  posted: state.user.posted,
 });
 
 const mapDispatchToProps = dispatch => ({

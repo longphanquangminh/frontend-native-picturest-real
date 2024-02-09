@@ -304,7 +304,7 @@ function RecipeDetailScreen(props) {
                     {comments.length}
                   </Text>
                   <Text style={{ fontSize: hp(1.3) }} className='font-bold text-neutral-700'>
-                    {comments.length > 0 ? "Comments" : "Comment"}
+                    {comments.length > 1 ? "Comments" : "Comment"}
                   </Text>
                 </View>
               </View>
