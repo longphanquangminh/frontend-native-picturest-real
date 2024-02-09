@@ -424,6 +424,9 @@ function RecipeDetailScreen(props) {
             {props.userInfo ? (
               <KeyboardAvoidingContainer style={styles.container}>
                 <StyledTextInput placeholder='Write your comment here...' value={bio} onChangeText={setBio} />
+                <TouchableOpacity className='py-3 bg-yellow-400 rounded-xl'>
+                  <Text className='text-xl font-bold text-center text-gray-700'>Post</Text>
+                </TouchableOpacity>
               </KeyboardAvoidingContainer>
             ) : (
               <Text>Please login to comment!</Text>

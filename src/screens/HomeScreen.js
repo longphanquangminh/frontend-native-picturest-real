@@ -130,7 +130,7 @@ export default function HomeScreen() {
         <View className='flex-row items-center space-x-2 px-4 pb-2 '>
           <View className='flex-row flex-1 items-center rounded-full bg-black/5 p-[6px]'>
             <TextInput
-              placeholder='Search any picturesx'
+              placeholder='Search any pictures'
               placeholderTextColor={"gray"}
               style={{ fontSize: hp(1.7) }}
               className='flex-1 text-base mb-1 pl-3 tracking-wider'

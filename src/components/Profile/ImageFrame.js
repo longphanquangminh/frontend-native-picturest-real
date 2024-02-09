@@ -2,7 +2,7 @@ import { StyleSheet, TouchableOpacity, Image, View } from "react-native";
 import { colors } from "../../config/theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import placeholder from "../../../assets/images/profile.jpg";
+import placeholder from "../../../assets/images/no-image.png";
 
 const ImageFrame = ({ uri, style, imgStyle, onPress, onButtonPress, aviOnly = false, ...props }) => {
   return (
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 50,
     width: 200,
-    height: 350,
+    height: 250,
     borderColor: colors.secondary,
     borderWidth: 5,
   },
