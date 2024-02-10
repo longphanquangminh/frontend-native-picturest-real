@@ -6,6 +6,7 @@ function* loginSaga(action) {
   try {
     yield put({ type: "LOGIN_REQUEST" });
     const response = yield call(() => axios.post(`${BASE_URL}/login`, action.payload));
+    console.log(response.data);
     yield put({ type: "LOGIN_SUCCESS", payload: response.data });
   } catch (error) {
     yield put({ type: "LOGIN_FAILURE", payload: error.message });

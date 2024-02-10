@@ -7,7 +7,16 @@ import { colors } from "../../config/theme";
 // components
 import StyledText from "../Texts/StyledText";
 
-const UploadModal = ({ title = "Profile Photo", modalVisible, onBackPress, onCameraPress, onGalleryPress, onRemovePress, isLoading = false }) => {
+const UploadModal = ({
+  title = "Profile Photo",
+  modalVisible,
+  onBackPress,
+  onCameraPress,
+  onGalleryPress,
+  onRemovePress,
+  showRemoveButton = true,
+  isLoading = false,
+}) => {
   return (
     <Modal animationType='slide' visible={modalVisible} transparent={true}>
       <Pressable style={styles.container} onPress={onBackPress}>
@@ -30,10 +39,12 @@ const UploadModal = ({ title = "Profile Photo", modalVisible, onBackPress, onCam
                 <StyledText small>Gallery</StyledText>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.optionBtn} onPress={onRemovePress}>
-                <MaterialCommunityIcons name='trash-can-outline' size={30} color={colors.tertiary} />
-                <StyledText small>Remove</StyledText>
-              </TouchableOpacity>
+              {showRemoveButton && (
+                <TouchableOpacity style={styles.optionBtn} onPress={onRemovePress}>
+                  <MaterialCommunityIcons name='trash-can-outline' size={30} color={colors.tertiary} />
+                  <StyledText small>Remove</StyledText>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         )}

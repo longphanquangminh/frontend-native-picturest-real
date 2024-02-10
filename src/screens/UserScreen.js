@@ -12,17 +12,24 @@ import Avatar from "../components/Profile/Avatar";
 import ProfileInfo from "../components/Profile/ProfileInfo";
 import ProfileButton from "../components/Profile/ProfileButton";
 import UploadModal from "../components/Profile/UploadModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
+import { BASE_URL_IMG } from "../api/config";
 
 function UserScreen({ userInfo, token, logout }) {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(null);
 
   // useEffect(() => {
   // get data from API
   // })
+
+  useEffect(() => {
+    if (userInfo) {
+      setImage(`${BASE_URL_IMG}/${userInfo.anhDaiDien}`);
+    }
+  }, [userInfo]);
 
   const uploadImage = async mode => {
     try {

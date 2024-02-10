@@ -14,26 +14,28 @@ function RecipesSearch({ title = "Pictures", categories, meals, loading }) {
   const navigation = useNavigation();
   return (
     <View className='mx-4 space-y-3'>
-      <Text style={{ fontSize: hp(3) }} className='font-semibold text-neutral-600'>
-        {title}
-      </Text>
       <View>
         {loading ? (
           <Loading size='large' className='mt-20' />
         ) : categories.length == 0 || meals.length == 0 ? (
           <Text className='text-center mt-20'>No pictures found!</Text>
         ) : (
-          <MasonryList
-            data={meals}
-            keyExtractor={item => item.hinhId}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item, i }) => <RecipeCard item={item} index={i} navigation={navigation} />}
-            // refreshing={isLoadingNext}
-            // onRefresh={() => refetch({first: ITEM_CNT})}
-            onEndReachedThreshold={0.1}
-            // onEndReached={() => loadNext(ITEM_CNT)}
-          />
+          <View className='space-y-3'>
+            <Text style={{ fontSize: hp(3) }} className='font-semibold text-neutral-600'>
+              {title}
+            </Text>
+            <MasonryList
+              data={meals}
+              keyExtractor={item => item.hinhId}
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item, i }) => <RecipeCard item={item} index={i} navigation={navigation} />}
+              // refreshing={isLoadingNext}
+              // onRefresh={() => refetch({first: ITEM_CNT})}
+              onEndReachedThreshold={0.1}
+              // onEndReached={() => loadNext(ITEM_CNT)}
+            />
+          </View>
         )}
       </View>
     </View>

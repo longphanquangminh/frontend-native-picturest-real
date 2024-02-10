@@ -17,6 +17,7 @@ const initialState = {
   onBoardShowing: true,
   searchValue: "",
   posted: false,
+  changedInfo: false,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -51,6 +52,8 @@ const userReducer = (state = initialState, action) => {
       return { ...state, posted: action.payload };
     case "EDIT":
       return { ...state, userInfo: action.payload };
+    case "CHANGED_INFO":
+      return { ...state, changedInfo: action.payload };
     default:
       return state;
   }

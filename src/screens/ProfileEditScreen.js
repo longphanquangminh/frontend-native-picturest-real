@@ -12,15 +12,16 @@ import Toast from "react-native-toast-message";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { connect } from "react-redux";
 import axios from "axios";
-import { BASE_URL } from "../api/config";
+import { BASE_URL, BASE_URL_IMG } from "../api/config";
 
 // for uploading image to backend
-// const FormData = global.FormData;
+const FormData = global.FormData;
 
-const ProfileEditScreen = ({ route, token, userInfo, setUserInfo }) => {
+const ProfileEditScreen = ({ route, token, userInfo, setUserInfo, setChangedInfo }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
-  const [image, setImage] = useState(route.params?.image);
+  const [image, setImage] = useState(`${BASE_URL_IMG}/${userInfo.anhDaiDien}`);
+  const [imageReal, setImageReal] = useState(null);
 
   const uploadImage = async mode => {
     try {
@@ -45,6 +46,67 @@ const ProfileEditScreen = ({ route, token, userInfo, setUserInfo }) => {
 
       if (!result.canceled) {
         setImage(result.assets[0].uri);
+        let localUri = result.assets[0].uri;
+        let filename = localUri.split("/").pop();
+
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+        setImageReal({ uri: localUri, name: filename, type });
+        const imageObject = { uri: localUri, name: filename, type };
+
+        const formData = new FormData();
+        formData.append("file", imageObject);
+
+        const config = {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            token,
+          },
+          transformRequest: () => {
+            return formData;
+          },
+        };
+
+        await axios.post(`${BASE_URL}/users/avatar/${userInfo.nguoiDungId}`, formData, config);
+
+        const response = await axios.get(`${BASE_URL}/users/${userInfo.nguoiDungId}`);
+        if (response && response.data) {
+          setUserInfo(response.data.content);
+        }
+
+        Toast.show({
+          type: "success",
+          text1: "Successfully upload avatar!",
+          text2: "Your avatar has been uploaded ✅",
+        });
+
+        // axios
+        //   .post(`${BASE_URL}/users/avatar/${userInfo.nguoiDungId}`, formData, {
+        //     headers: {
+        //       "Content-Type": "multipart/form-data",
+        //       token,
+        //     },
+        //   })
+        //   .then(() => {
+        //     axios
+        //       .get(`${BASE_URL}/users/${userInfo.nguoiDungId}`)
+        //       .then(res => {
+        //         setUserInfo(res.data.content);
+        //       })
+        //       .catch(error => {
+        //         console.error("Error getting user info:", error);
+        //       });
+        //     // removeImage();
+        //   })
+        //   .catch(error => {
+        //     console.error("Error posting image:", error);
+        //     Toast.show({
+        //       type: "error",
+        //       text1: "Error",
+        //       text2: "Failed to upload image.",
+        //     });
+        //   });
+
         setModalVisible(false);
       }
     } catch (error) {
@@ -54,76 +116,105 @@ const ProfileEditScreen = ({ route, token, userInfo, setUserInfo }) => {
   };
 
   const removeImage = () => {
-    setImage(null);
+    setImage(`${BASE_URL_IMG}/${userInfo.anhDaiDien}`);
+    setImageReal(null);
     setModalVisible(false);
   };
 
   const [savingChanges, setSavingChanges] = useState(false);
-  const saveChanges = async () => {
+
+  const saveChanges = () => {
     try {
       setSavingChanges(true);
 
-      // make api call to save
-      // sendToBackend();
+      // let objectUserInfo = { ...userInfo }; // Initialize the object
 
-      setSavingChanges(false);
+      // if (imageReal) {
+      //   const formData = new FormData();
+      //   formData.append("file", imageReal);
+
+      //   axios
+      //     .post(`${BASE_URL}/users/avatar/${userInfo.nguoiDungId}`, formData, {
+      //       headers: {
+      //         "Content-Type": "multipart/form-data",
+      //         token,
+      //       },
+      //     })
+      //     .then(() => {
+      //       // objectUserInfo = { ...objectUserInfo, anhDaiDien: imageReal.name };
+      //       removeImage();
+      //     })
+      //     .catch(error => {
+      //       console.error("Error posting image:", error);
+      //       Toast.show({
+      //         type: "error",
+      //         text1: "Error",
+      //         text2: "Failed to upload image.",
+      //       });
+      //     });
+      // }
+
+      const newObject = { hoTen: fullName };
+
       axios
-        .put(
-          `${BASE_URL}/users/${userInfo.nguoiDungId}`,
-          {
-            hoTen: fullName,
+        .put(`${BASE_URL}/users/${userInfo.nguoiDungId}`, newObject, {
+          headers: {
+            token: token,
           },
-          {
-            headers: {
-              token: token,
-            },
-          },
-        )
+        })
         .then(() => {
-          navigation.goBack();
+          setUserInfo({ ...userInfo, ...newObject });
           Toast.show({
             type: "success",
             text1: "Edit successfully!",
             text2: "Your profile has been saved ✅",
           });
-          setUserInfo({ ...userInfo, hoTen: fullName });
+          navigation.goBack();
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(err);
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: "Failed to save changes.",
+          });
+        })
+        .finally(() => {
+          setSavingChanges(false); // Toggle off loading state
+        });
     } catch ({ message }) {
       alert(message);
       setSavingChanges(false);
     }
   };
 
-  // const sendToBackend = async () => {
-  //   try {
-  //     const formData = new FormData();
+  const sendToBackend = async () => {
+    try {
+      const formData = new FormData();
 
-  //     formData.append("fullName", fullName);
-  //     formData.append("email", email);
-  //     formData.append("phone", phone);
-  //     formData.append("image", {
-  //       uri: image,
-  //       type: "image/png",
-  //       name: "product-image",
-  //     });
+      formData.append("image", {
+        uri: image,
+        type: "image/png",
+        name: "product-image",
+      });
 
-  //     const config = {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //       transformRequest: () => {
-  //         return formData;
-  //       },
-  //     };
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token,
+        },
+        transformRequest: () => {
+          return formData;
+        },
+      };
 
-  //     await axios.post("https://your-api-endpoint", formData, config);
+      await axios.post(`${BASE_URL}/users/avatar/${userInfo.nguoiDungId}`, formData, config);
 
-  //     alert("success");
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
+      alert("success");
+    } catch (error) {
+      throw error;
+    }
+  };
 
   // inputs
   const [fullName, setFullName] = useState(route.params?.fullName || userInfo.hoTen);
@@ -140,6 +231,7 @@ const ProfileEditScreen = ({ route, token, userInfo, setUserInfo }) => {
         </TouchableOpacity>
       </View>
       <Avatar uri={image} onButtonPress={() => setModalVisible(true)} />
+      {/* <View className='my-3'></View> */}
       <StyledTextInput placeholder='Full Name' icon='account-outline' label='Full Name' value={fullName} onChangeText={setFullName} />
 
       {/* <StyledTextInput placeholder='A proud web dev' icon='account-details-outline' label='Bio' multiline={true} value={bio} onChangeText={setBio} /> */}
@@ -176,6 +268,7 @@ const ProfileEditScreen = ({ route, token, userInfo, setUserInfo }) => {
         onCameraPress={() => uploadImage()}
         onGalleryPress={() => uploadImage("gallery")}
         onRemovePress={() => removeImage()}
+        showRemoveButton={false}
       />
     </KeyboardAvoidingContainer>
   );
@@ -197,6 +290,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setUserInfo: value => dispatch({ type: "EDIT", payload: value }),
+  setChangedInfo: booleanVallue => dispatch({ type: "CHANGED_INFO", payload: booleanVallue }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileEditScreen);
