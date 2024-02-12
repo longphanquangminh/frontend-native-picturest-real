@@ -9,26 +9,41 @@ import { CachedImage } from "../helpers/image";
 import { useNavigation } from "@react-navigation/native";
 import { fallbackImage } from "../constants/index";
 import { BASE_URL_IMG } from "../api/config";
+import { shortenString } from "../helpers/shortenString";
+import { connect } from "react-redux";
+import { useState, useEffect } from "react";
 
-export default function Recipes({ title = "Pictures", categories, meals }) {
+function Recipes({ loading, wantMarginX = true, wantMarginY = false, wantTitle = true, title = "Pictures", categories, meals }) {
   const navigation = useNavigation();
+  const [showNo, setShowNo] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setShowNo(true);
+    }, 500);
+  }, []);
   return (
-    <View className='mx-4 space-y-3'>
-      <Text style={{ fontSize: hp(3) }} className='font-semibold text-neutral-600'>
-        {title}
-      </Text>
+    <View className={`${wantMarginX && "mx-4"} ${wantMarginY && "my-4"} space-y-3`}>
+      {wantTitle && (
+        <Text style={{ fontSize: hp(3) }} className='font-semibold text-neutral-600'>
+          {title}
+        </Text>
+      )}
       <View>
-        {categories.length == 0 || meals.length == 0 ? (
-          <>
-            <Loading size='large' className='mt-20' />
-          </>
+        {loading ? (
+          <Loading size='large' className='mt-20' />
+        ) : categories.length == 0 || meals.length == 0 ? (
+          showNo ? (
+            <Text className='text-center mt-20'>No pictures found!</Text>
+          ) : (
+            <></>
+          )
         ) : (
           <MasonryList
             data={meals}
-            keyExtractor={item => item.hinhId}
+            keyExtractor={item => item.hinh?.hinhId ?? item.hinhId}
             numColumns={2}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item, i }) => <RecipeCard item={item} index={i} navigation={navigation} />}
+            renderItem={({ item, i }) => <RecipeCard item={item.hinh ? item.hinh : item} index={i} navigation={navigation} />}
             // refreshing={isLoadingNext}
             // onRefresh={() => refetch({first: ITEM_CNT})}
             onEndReachedThreshold={0.1}
@@ -67,9 +82,15 @@ const RecipeCard = ({ item, index, navigation }) => {
         />
 
         <Text style={{ fontSize: hp(1.5) }} className='font-semibold ml-2 text-neutral-600'>
-          {item.tenHinh.length > 20 ? item.tenHinh.slice(0, 20) + "..." : item.tenHinh}
+          {shortenString(item.tenHinh)}
         </Text>
       </Pressable>
     </Animated.View>
   );
 };
+
+const mapStateToProps = state => ({
+  loading: state.user.loading,
+});
+
+export default connect(mapStateToProps)(Recipes);

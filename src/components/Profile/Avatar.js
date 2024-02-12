@@ -9,7 +9,7 @@ const Avatar = ({ userInfo, uri, style, imgStyle, onPress, onButtonPress, showCh
   console.log(uri);
   return (
     <View style={[styles.container, { marginBottom: aviOnly ? 0 : 15 }, style]} {...props}>
-      <TouchableOpacity onPress={onPress}>
+      <View onPress={onPress}>
         <Image
           source={userInfo && userInfo?.anhDaiDien && uri ? { uri } : placeholder}
           style={[styles.image, aviOnly && { height: 35, width: 35, borderWidth: 0 }, imgStyle]}
@@ -20,7 +20,7 @@ const Avatar = ({ userInfo, uri, style, imgStyle, onPress, onButtonPress, showCh
             <MaterialCommunityIcons name='camera-outline' size={30} color={colors.accent} />
           </TouchableOpacity>
         )}
-      </TouchableOpacity>
+      </View>
     </View>
   );
 };

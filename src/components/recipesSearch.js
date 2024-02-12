@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import MasonryList from "@react-native-seoul/masonry-list";
 import Animated, { FadeInDown } from "react-native-reanimated";
@@ -12,13 +12,23 @@ import { connect } from "react-redux";
 
 function RecipesSearch({ title = "Pictures", categories, meals, loading }) {
   const navigation = useNavigation();
+  const [showNo, setShowNo] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setShowNo(true);
+    }, 500);
+  }, []);
   return (
     <View className='mx-4 space-y-3'>
       <View>
         {loading ? (
           <Loading size='large' className='mt-20' />
         ) : categories.length == 0 || meals.length == 0 ? (
-          <Text className='text-center mt-20'>No pictures found!</Text>
+          showNo ? (
+            <Text className='text-center mt-20'>No pictures found!</Text>
+          ) : (
+            <></>
+          )
         ) : (
           <View className='space-y-3'>
             <Text style={{ fontSize: hp(3) }} className='font-semibold text-neutral-600'>

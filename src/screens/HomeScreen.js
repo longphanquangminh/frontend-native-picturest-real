@@ -153,6 +153,7 @@ function HomeScreen({ searchValue, setSearchValue, posted }) {
               onChangeText={text => {
                 setSearchValue(text);
               }}
+              value={searchValue}
             />
             <TouchableOpacity onPress={handleSearch} className='rounded-full p-2' style={{ backgroundColor: themeColors.bgLight }}>
               <MagnifyingGlassIcon size='25' strokeWidth={2} color='white' />

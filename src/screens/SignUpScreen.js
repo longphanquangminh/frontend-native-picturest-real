@@ -10,6 +10,7 @@ import Toast from "react-native-toast-message";
 function SignUpScreen({ loading, error, register }) {
   const navigation = useNavigation();
   const [username, setUsername] = useState("");
+  const [date, setDate] = useState(new Date());
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const handleRegister = () => {

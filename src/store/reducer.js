@@ -18,6 +18,7 @@ const initialState = {
   searchValue: "",
   posted: false,
   changedInfo: false,
+  changedSaved: false,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -54,6 +55,8 @@ const userReducer = (state = initialState, action) => {
       return { ...state, userInfo: action.payload };
     case "CHANGED_INFO":
       return { ...state, changedInfo: action.payload };
+    case "CHANGED_SAVED":
+      return { ...state, changedSaved: action.payload };
     default:
       return state;
   }

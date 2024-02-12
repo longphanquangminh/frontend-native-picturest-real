@@ -70,6 +70,17 @@ export const categoriesData = [
   },
 ];
 
+export const viewMode = [
+  {
+    id: 1,
+    title: "Created",
+  },
+  {
+    id: 2,
+    title: "Saved",
+  },
+];
+
 export const categoriesNewStyle = [
   {
     id: 1,

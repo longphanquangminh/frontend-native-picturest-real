@@ -126,9 +126,9 @@ function UserScreen({ userInfo, token, logout }) {
         {userInfo.hoTen}
       </StyledText>
       {/* <StyledText style={[styles.text, { marginBottom: 5 }]}>Photo addict</StyledText> */}
-      <StyledText small style={[styles.text, { color: colors.tertiary }]}>
+      {/* <StyledText small style={[styles.text, { color: colors.tertiary }]}>
         Active since – 2023
-      </StyledText>
+      </StyledText> */}
       <SectionHead
         option='Edit'
         style={{ marginTop: 20 }}
@@ -152,7 +152,7 @@ function UserScreen({ userInfo, token, logout }) {
         <ProfileInfo label='Email' icon='email-outline'>
           <StyledText>{userInfo.email}</StyledText>
         </ProfileInfo>
-        <ProfileButton label='Profile' icon='face-man-profile' />
+        <ProfileButton onPress={() => navigation.navigate("Profile")} label='Profile' icon='face-man-profile' />
         {/* <ProfileInfo label='Phone' icon='phone-outline'>
           <StyledText>+71138474930</StyledText>
         </ProfileInfo>

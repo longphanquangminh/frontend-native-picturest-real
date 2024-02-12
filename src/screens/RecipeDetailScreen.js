@@ -235,6 +235,7 @@ function RecipeDetailScreen(props) {
                     },
                   )
                   .then(() => {
+                    props.setChangedSaved(!props.changedSaved);
                     getMealData(item.hinhId);
                   })
                   .catch(err => {
@@ -475,7 +476,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   userInfo: state.user.userInfo,
+  changedSaved: state.user.changedSaved,
   token: state.user.token,
 });
 
-export default connect(mapStateToProps)(RecipeDetailScreen);
+const mapDispatchToProps = dispatch => ({
+  setChangedSaved: booleanValue => dispatch({ type: "CHANGED_SAVED", payload: booleanValue }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipeDetailScreen);
