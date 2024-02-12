@@ -152,6 +152,7 @@ function UserScreen({ userInfo, token, logout }) {
         <ProfileInfo label='Email' icon='email-outline'>
           <StyledText>{userInfo.email}</StyledText>
         </ProfileInfo>
+        <ProfileButton label='Profile' icon='face-man-profile' />
         {/* <ProfileInfo label='Phone' icon='phone-outline'>
           <StyledText>+71138474930</StyledText>
         </ProfileInfo>
@@ -162,7 +163,7 @@ function UserScreen({ userInfo, token, logout }) {
       <SectionHead style={{ marginTop: 20 }}>Utilities</SectionHead>
       <View style={styles.section}>
         {/* <ProfileButton label='Downloads' icon='download-outline' /> */}
-        <ProfileButton label='Help' icon='help-circle-outline' />
+        {/* <ProfileButton label='Help' icon='help-circle-outline' /> */}
         <ProfileButton
           label='Log Out'
           icon='logout-variant'

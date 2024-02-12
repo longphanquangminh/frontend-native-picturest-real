@@ -282,7 +282,7 @@ function RecipeDetailScreen(props) {
 
             {/* misc */}
             <Animated.View entering={FadeInDown.delay(100).duration(700).springify().damping(12)} className='flex-row justify-around'>
-              <View className='flex rounded-full bg-amber-300 p-2'>
+              {/* <View className='flex rounded-full bg-amber-300 p-2'>
                 <View style={{ height: hp(6.5), width: hp(6.5) }} className='bg-white rounded-full flex items-center justify-center'>
                   <ClockIcon size={hp(4)} strokeWidth={2.5} color='#525252' />
                 </View>
@@ -294,7 +294,7 @@ function RecipeDetailScreen(props) {
                     hour ago
                   </Text>
                 </View>
-              </View>
+              </View> */}
               <View className='flex rounded-full bg-amber-300 p-2'>
                 <View style={{ height: hp(6.5), width: hp(6.5) }} className='bg-white rounded-full flex items-center justify-center'>
                   <UsersIcon size={hp(4)} strokeWidth={2.5} color='#525252' />
@@ -317,7 +317,7 @@ function RecipeDetailScreen(props) {
                     {savedCount}
                   </Text>
                   <Text style={{ fontSize: hp(1.3) }} className='font-bold text-neutral-700'>
-                    Love
+                    Save
                   </Text>
                 </View>
               </View>
