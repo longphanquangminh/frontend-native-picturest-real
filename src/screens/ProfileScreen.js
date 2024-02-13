@@ -12,7 +12,8 @@ import { viewMode } from "../constants/index";
 import Recipes from "../components/recipes";
 import axios from "axios";
 
-function ProfileScreen({ userInfo, changedSaved, setLoading }) {
+function ProfileScreen(props) {
+  let userInfo = props.route.params;
   const [image, setImage] = useState(null);
   const [activeCategory, setActiveCategory] = useState(1);
   const [pictures, setPictures] = useState([]);
@@ -56,7 +57,7 @@ function ProfileScreen({ userInfo, changedSaved, setLoading }) {
         })
         .catch(err => console.log(err));
     }
-  }, [activeCategory, changedSaved]);
+  }, [activeCategory, props.changedSaved]);
   return (
     <MainContainer style={styles.container}>
       <View className='flex-row justify-start mb-6'>
@@ -98,7 +99,6 @@ function ProfileScreen({ userInfo, changedSaved, setLoading }) {
 }
 
 const mapStateToProps = state => ({
-  userInfo: state.user.userInfo,
   token: state.user.token,
   changedSaved: state.user.changedSaved,
 });

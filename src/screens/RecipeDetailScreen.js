@@ -103,6 +103,7 @@ function RecipeDetailScreen(props) {
   };
   const navigation = useNavigation();
   const [meal, setMeal] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [savedCount, setSavedCount] = useState(0);
@@ -133,6 +134,7 @@ function RecipeDetailScreen(props) {
       if (response && response.data) {
         setMeal(response.data.content.data);
         setSavedCount(response.data.content.savedCount);
+        setUserInfo(response.data.content.data.nguoiDung);
         setLoading(false);
       }
     } catch (err) {
@@ -268,7 +270,7 @@ function RecipeDetailScreen(props) {
               {/* <Text style={{ fontSize: hp(2) }} className='font-medium flex-1 text-neutral-500'>
                 {capitalizeString(meal?.nguoiDung?.hoTen ?? "User")}
               </Text> */}
-              <View className='flex-row items-center space-x-2'>
+              <TouchableOpacity onPress={() => navigation.navigate("Profile", { ...userInfo })} className='flex-row items-center space-x-2'>
                 <CachedImage
                   className='rounded-full object-cover'
                   uri={`${BASE_URL_IMG}/${meal?.nguoiDung?.anhDaiDien}`}
@@ -278,7 +280,7 @@ function RecipeDetailScreen(props) {
                 <Text style={{ fontSize: wp(4.8) }} className='font-normal text-gray-700'>
                   {capitalizeString(meal?.nguoiDung?.hoTen ?? "User")}
                 </Text>
-              </View>
+              </TouchableOpacity>
             </Animated.View>
 
             {/* misc */}
@@ -401,7 +403,10 @@ function RecipeDetailScreen(props) {
                   const color = index % 2 == 0 ? themeColors.bgOnBoard2 : themeColors.bgOnBoard3;
                   return (
                     <View key={index} className={`p-4 rounded-xl space-y-2`} style={{ backgroundColor: color }}>
-                      <View className='flex-row items-center space-x-2'>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate("Profile", { ...item.nguoiDung })}
+                        className='flex-row items-center space-x-2'
+                      >
                         <CachedImage
                           className='rounded-full object-cover'
                           uri={`${BASE_URL_IMG}/${item.nguoiDung.anhDaiDien}`}
@@ -411,7 +416,7 @@ function RecipeDetailScreen(props) {
                         <Text style={{ fontSize: wp(4.8) }} className='text-gray-700'>
                           {capitalizeString(comment?.nguoiDung?.hoTen ?? "User")}
                         </Text>
-                      </View>
+                      </TouchableOpacity>
 
                       <Text style={{ fontSize: wp(3.8) }} className='text-gray-700'>
                         {comment.noiDung}

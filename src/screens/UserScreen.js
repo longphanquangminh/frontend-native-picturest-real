@@ -152,7 +152,7 @@ function UserScreen({ userInfo, token, logout }) {
         <ProfileInfo label='Email' icon='email-outline'>
           <StyledText>{userInfo.email}</StyledText>
         </ProfileInfo>
-        <ProfileButton onPress={() => navigation.navigate("Profile")} label='Profile' icon='face-man-profile' />
+        <ProfileButton onPress={() => navigation.navigate("Profile", { ...userInfo })} label='Profile' icon='face-man-profile' />
         {/* <ProfileInfo label='Phone' icon='phone-outline'>
           <StyledText>+71138474930</StyledText>
         </ProfileInfo>
