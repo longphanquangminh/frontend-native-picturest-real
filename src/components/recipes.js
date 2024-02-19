@@ -39,10 +39,10 @@ function Recipes({ loading, wantMarginX = true, wantMarginY = false, wantTitle =
         ) : (
           <MasonryList
             data={meals}
-            keyExtractor={item => item.hinh?.id ?? item.id}
+            keyExtractor={item => item.hinh_anh?.id ?? item.id}
             numColumns={2}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item, i }) => <RecipeCard item={item.hinh ? item.hinh : item} index={i} navigation={navigation} />}
+            renderItem={({ item, i }) => <RecipeCard item={item.hinh_anh ? item.hinh_anh : item} index={i} navigation={navigation} />}
             // refreshing={isLoadingNext}
             // onRefresh={() => refetch({first: ITEM_CNT})}
             onEndReachedThreshold={0.1}
