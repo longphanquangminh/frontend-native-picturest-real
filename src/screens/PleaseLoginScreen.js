@@ -9,10 +9,10 @@ export default function PleaseLoginScreen() {
       <Text>Please login to experience this feature!</Text>
       <TouchableOpacity
         onPress={() => navigation.navigate("Login")}
-        style={{ backgroundColor: isActive ? themeColors.bgLight : "rgba(0,0,0,0.07)" }}
+        style={{ backgroundColor: "#d4a574" }}
         className='py-3 px-9 mr-2 rounded-full shadow'
       >
-        <Text className='font-semibold'>Login</Text>
+        <Text className='font-semibold text-white'>Login</Text>
       </TouchableOpacity>
     </View>
   );
