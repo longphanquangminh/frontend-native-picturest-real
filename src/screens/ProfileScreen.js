@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native
 import React from "react";
 import Avatar from "../components/Profile/Avatar";
 import { connect } from "react-redux";
-import { BASE_URL_IMG, BASE_URL } from "../api/config";
+import { BASE_URL } from "../api/config";
 import { MainContainer } from "../components/Containers";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { themeColors } from "../theme/index";
@@ -19,7 +19,7 @@ function ProfileScreen(props) {
   const [pictures, setPictures] = useState([]);
   useEffect(() => {
     if (userInfo) {
-      setImage(`${BASE_URL_IMG}/${userInfo.anhDaiDien}`);
+      setImage(userInfo.anh_dai_dien);
     }
   }, [userInfo]);
   const navigation = useNavigation();
@@ -42,7 +42,7 @@ function ProfileScreen(props) {
     // setLoading(true);
     if (activeCategory === 1) {
       axios
-        .get(`${BASE_URL}/created-by-user/${userInfo.nguoiDungId}`)
+        .get(`${BASE_URL}/created-by-user/${userInfo.id}`)
         .then(res => {
           setPictures(res.data.content);
           // setTimeout(() => setLoading(false), 600);
@@ -50,7 +50,7 @@ function ProfileScreen(props) {
         .catch(err => console.log(err));
     } else {
       axios
-        .get(`${BASE_URL}/saved-by-user/${userInfo.nguoiDungId}`)
+        .get(`${BASE_URL}/saved-by-user/${userInfo.id}`)
         .then(res => {
           setPictures(res.data.content);
           // setTimeout(() => setLoading(false), 600);
@@ -68,7 +68,7 @@ function ProfileScreen(props) {
       <View className='flex flex-row gap-3 justify-start items-center'>
         <Avatar showChangeButton={false} uri={image} />
         <View className='space-y-6'>
-          <Text>Name: {userInfo.hoTen}</Text>
+          <Text>Name: {userInfo.ho_ten}</Text>
           <Text>Email: {userInfo.email}</Text>
           <Text>Age: {userInfo.tuoi}</Text>
         </View>

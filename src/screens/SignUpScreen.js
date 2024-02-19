@@ -14,7 +14,7 @@ function SignUpScreen({ loading, error, register }) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const handleRegister = () => {
-    register({ hoTen: username, matKhau: password, email, tuoi: 15 });
+    register({ ho_ten: username, matKhau: password, email, tuoi: 15 });
     setEmail("");
     setPassword("");
     setUsername("");

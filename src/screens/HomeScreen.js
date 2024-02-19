@@ -52,7 +52,7 @@ function HomeScreen({ searchValue, setSearchValue, posted }) {
   const getPictures = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/pictures`);
-      // console.log('got categories: ',response.data);
+      // console.log("got categories: ", response.data.content.data);
       if (response && response.data) {
         setPictures(response.data.content.data);
       }

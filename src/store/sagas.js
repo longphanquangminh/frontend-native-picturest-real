@@ -5,7 +5,7 @@ import { BASE_URL } from "../api/config";
 function* loginSaga(action) {
   try {
     yield put({ type: "LOGIN_REQUEST" });
-    const response = yield call(() => axios.post(`${BASE_URL}/login`, action.payload));
+    const response = yield call(() => axios.post(`${BASE_URL}/auth/login`, action.payload));
     console.log(response.data);
     yield put({ type: "LOGIN_SUCCESS", payload: response.data });
   } catch (error) {
@@ -16,7 +16,7 @@ function* loginSaga(action) {
 function* registerSaga(action) {
   try {
     yield put({ type: "REGISTER_REQUEST" });
-    const response = yield call(() => axios.post(`${BASE_URL}/register`, action.payload));
+    const response = yield call(() => axios.post(`${BASE_URL}/auth/register`, action.payload));
     yield put({ type: "REGISTER_SUCCESS", payload: response.data });
   } catch (error) {
     yield put({ type: "REGISTER_FAILURE", payload: error.message });

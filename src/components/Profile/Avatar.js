@@ -11,7 +11,7 @@ const Avatar = ({ userInfo, uri, style, imgStyle, onPress, onButtonPress, showCh
     <View style={[styles.container, { marginBottom: aviOnly ? 0 : 15 }, style]} {...props}>
       <View onPress={onPress}>
         <Image
-          source={userInfo && userInfo?.anhDaiDien && uri ? { uri } : placeholder}
+          source={userInfo && userInfo?.anh_dai_dien && uri ? { uri } : placeholder}
           style={[styles.image, aviOnly && { height: 35, width: 35, borderWidth: 0 }, imgStyle]}
         />
 

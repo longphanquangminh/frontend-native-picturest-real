@@ -11,7 +11,7 @@ import Loading from "../components/loading";
 import Animated, { FadeInDown, FadeIn } from "react-native-reanimated";
 import { Platform } from "react-native";
 import * as Linking from "expo-linking";
-import { BASE_URL, BASE_URL_IMG, https } from "../api/config";
+import { BASE_URL } from "../api/config";
 import { fallbackImage } from "../constants";
 import { capitalizeString } from "../helpers/capitalizeString";
 import { themeColors } from "../theme";
@@ -27,7 +27,7 @@ function RecipeDetailScreen(props) {
   const handleComment = () => {
     axios
       .post(
-        `${BASE_URL}/comments/${item.hinhId}`,
+        `${BASE_URL}/comments/${item.id}`,
         {
           noiDung: bio,
         },
@@ -43,7 +43,7 @@ function RecipeDetailScreen(props) {
           text1: "Comment successfully!",
           text2: "Your comment has been saved!",
         });
-        getComments(item.hinhId);
+        getComments(item.id);
         setBio("");
       })
       .catch(err => console.log(err));
@@ -69,7 +69,7 @@ function RecipeDetailScreen(props) {
   const checkUserSave = () => {
     if (props.userInfo) {
       axios
-        .get(`${BASE_URL}/saved/${item.hinhId}`, {
+        .get(`${BASE_URL}/saved/${item.id}`, {
           headers: {
             token: props.token,
           },
@@ -109,14 +109,14 @@ function RecipeDetailScreen(props) {
   const [savedCount, setSavedCount] = useState(0);
 
   useEffect(() => {
-    getMealData(item.hinhId);
-    getComments(item.hinhId);
+    getMealData(item.id);
+    getComments(item.id);
   }, []);
 
-  const getComments = async hinhId => {
-    // console.log("hinhId: ", hinhId);
+  const getComments = async id => {
+    // console.log("id: ", id);
     try {
-      const response = await axios.get(`${BASE_URL}/comments/${hinhId}`);
+      const response = await axios.get(`${BASE_URL}/comments/${id}`);
       //   console.log('got meal data: ',response.data);
       if (response && response.data) {
         setComments(response.data.content);
@@ -127,14 +127,14 @@ function RecipeDetailScreen(props) {
     }
   };
 
-  const getMealData = async hinhId => {
+  const getMealData = async id => {
     try {
-      const response = await axios.get(`${BASE_URL}/pictures/${hinhId}`);
+      const response = await axios.get(`${BASE_URL}/pictures/${id}`);
       //   console.log('got meal data: ',response.data);
       if (response && response.data) {
         setMeal(response.data.content.data);
         setSavedCount(response.data.content.savedCount);
-        setUserInfo(response.data.content.data.nguoiDung);
+        setUserInfo(response.data.content.data.nguoi_dung);
         setLoading(false);
       }
     } catch (err) {
@@ -184,7 +184,7 @@ function RecipeDetailScreen(props) {
         {/* recipe image */}
         <View className='flex-row justify-center'>
           <CachedImage
-            uri={`${BASE_URL_IMG}/${item.duongDan}`}
+            uri={item.duong_dan}
             // sharedTransitionTag={item.strMeal} // this will only work on native image (now using Image from expo-image)
             style={{ width: wp(100), height: hp(50), borderBottomLeftRadius: 40, borderBottomRightRadius: 40 }}
             fallbackSource={fallbackImage}
@@ -228,7 +228,7 @@ function RecipeDetailScreen(props) {
                 setIsFavourite(!isFavourite);
                 axios
                   .post(
-                    `${BASE_URL}/saved/${item.hinhId}`,
+                    `${BASE_URL}/saved/${item.id}`,
                     {},
                     {
                       headers: {
@@ -238,7 +238,7 @@ function RecipeDetailScreen(props) {
                   )
                   .then(() => {
                     props.setChangedSaved(!props.changedSaved);
-                    getMealData(item.hinhId);
+                    getMealData(item.id);
                   })
                   .catch(err => {
                     console.log(err);
@@ -265,20 +265,20 @@ function RecipeDetailScreen(props) {
             {/* name and area */}
             <Animated.View entering={FadeInDown.duration(700).springify().damping(12)} className='space-y-2'>
               <Text style={{ fontSize: hp(3) }} className='font-bold flex-1 text-neutral-700'>
-                {meal?.tenHinh}
+                {meal?.ten_hinh}
               </Text>
               {/* <Text style={{ fontSize: hp(2) }} className='font-medium flex-1 text-neutral-500'>
-                {capitalizeString(meal?.nguoiDung?.hoTen ?? "User")}
+                {capitalizeString(meal?.nguoi_dung?.ho_ten ?? "User")}
               </Text> */}
               <TouchableOpacity onPress={() => navigation.navigate("Profile", { ...userInfo })} className='flex-row items-center space-x-2'>
                 <CachedImage
                   className='rounded-full object-cover'
-                  uri={`${BASE_URL_IMG}/${meal?.nguoiDung?.anhDaiDien}`}
+                  uri={meal?.nguoi_dung?.anh_dai_dien}
                   style={{ width: hp(4), height: hp(4) }}
                   fallbackSource={fallbackImage}
                 />
                 <Text style={{ fontSize: wp(4.8) }} className='font-normal text-gray-700'>
-                  {capitalizeString(meal?.nguoiDung?.hoTen ?? "User")}
+                  {capitalizeString(meal?.nguoi_dung?.ho_ten ?? "User")}
                 </Text>
               </TouchableOpacity>
             </Animated.View>
@@ -371,7 +371,7 @@ function RecipeDetailScreen(props) {
                 </View>
               </View> */}
               <View>
-                <Text>{item.moTa}</Text>
+                <Text>{item.mo_ta}</Text>
               </View>
             </Animated.View>
             {/* instructions */}
@@ -404,22 +404,22 @@ function RecipeDetailScreen(props) {
                   return (
                     <View key={index} className={`p-4 rounded-xl space-y-2`} style={{ backgroundColor: color }}>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate("Profile", { ...item.nguoiDung })}
+                        onPress={() => navigation.navigate("Profile", { ...item.nguoi_dung })}
                         className='flex-row items-center space-x-2'
                       >
                         <CachedImage
                           className='rounded-full object-cover'
-                          uri={`${BASE_URL_IMG}/${item.nguoiDung.anhDaiDien}`}
+                          uri={item.nguoi_dung.anh_dai_dien}
                           style={{ width: hp(4), height: hp(4) }}
                           fallbackSource={fallbackImage}
                         />
                         <Text style={{ fontSize: wp(4.8) }} className='text-gray-700'>
-                          {capitalizeString(comment?.nguoiDung?.hoTen ?? "User")}
+                          {capitalizeString(comment?.nguoi_dung?.ho_ten ?? "User")}
                         </Text>
                       </TouchableOpacity>
 
                       <Text style={{ fontSize: wp(3.8) }} className='text-gray-700'>
-                        {comment.noiDung}
+                        {comment.noi_dung}
                       </Text>
                     </View>
                   );

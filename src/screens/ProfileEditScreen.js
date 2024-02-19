@@ -12,7 +12,7 @@ import Toast from "react-native-toast-message";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { connect } from "react-redux";
 import axios from "axios";
-import { BASE_URL, BASE_URL_IMG } from "../api/config";
+import { BASE_URL } from "../api/config";
 
 // for uploading image to backend
 const FormData = global.FormData;
@@ -20,7 +20,7 @@ const FormData = global.FormData;
 const ProfileEditScreen = ({ route, token, userInfo, setUserInfo, setChangedInfo }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
-  const [image, setImage] = useState(`${BASE_URL_IMG}/${userInfo.anhDaiDien}`);
+  const [image, setImage] = useState(userInfo.anh_dai_dien);
   const [imageReal, setImageReal] = useState(null);
 
   const uploadImage = async mode => {
@@ -67,9 +67,9 @@ const ProfileEditScreen = ({ route, token, userInfo, setUserInfo, setChangedInfo
           },
         };
 
-        await axios.post(`${BASE_URL}/users/avatar/${userInfo.nguoiDungId}`, formData, config);
+        await axios.post(`${BASE_URL}/users/avatar/${userInfo.id}`, formData, config);
 
-        const response = await axios.get(`${BASE_URL}/users/${userInfo.nguoiDungId}`);
+        const response = await axios.get(`${BASE_URL}/users/${userInfo.id}`);
         if (response && response.data) {
           setUserInfo(response.data.content);
         }
@@ -81,7 +81,7 @@ const ProfileEditScreen = ({ route, token, userInfo, setUserInfo, setChangedInfo
         });
 
         // axios
-        //   .post(`${BASE_URL}/users/avatar/${userInfo.nguoiDungId}`, formData, {
+        //   .post(`${BASE_URL}/users/avatar/${userInfo.id}`, formData, {
         //     headers: {
         //       "Content-Type": "multipart/form-data",
         //       token,
@@ -89,7 +89,7 @@ const ProfileEditScreen = ({ route, token, userInfo, setUserInfo, setChangedInfo
         //   })
         //   .then(() => {
         //     axios
-        //       .get(`${BASE_URL}/users/${userInfo.nguoiDungId}`)
+        //       .get(`${BASE_URL}/users/${userInfo.id}`)
         //       .then(res => {
         //         setUserInfo(res.data.content);
         //       })
@@ -116,7 +116,7 @@ const ProfileEditScreen = ({ route, token, userInfo, setUserInfo, setChangedInfo
   };
 
   const removeImage = () => {
-    setImage(`${BASE_URL_IMG}/${userInfo.anhDaiDien}`);
+    setImage(userInfo.anh_dai_dien);
     setImageReal(null);
     setModalVisible(false);
   };
@@ -134,14 +134,14 @@ const ProfileEditScreen = ({ route, token, userInfo, setUserInfo, setChangedInfo
       //   formData.append("file", imageReal);
 
       //   axios
-      //     .post(`${BASE_URL}/users/avatar/${userInfo.nguoiDungId}`, formData, {
+      //     .post(`${BASE_URL}/users/avatar/${userInfo.id}`, formData, {
       //       headers: {
       //         "Content-Type": "multipart/form-data",
       //         token,
       //       },
       //     })
       //     .then(() => {
-      //       // objectUserInfo = { ...objectUserInfo, anhDaiDien: imageReal.name };
+      //       // objectUserInfo = { ...objectUserInfo, anh_dai_dien: imageReal.name };
       //       removeImage();
       //     })
       //     .catch(error => {
@@ -154,16 +154,18 @@ const ProfileEditScreen = ({ route, token, userInfo, setUserInfo, setChangedInfo
       //     });
       // }
 
-      const newObject = { hoTen: fullName };
-
       axios
-        .put(`${BASE_URL}/users/${userInfo.nguoiDungId}`, newObject, {
-          headers: {
-            token: token,
+        .put(
+          `${BASE_URL}/users/${userInfo.id}`,
+          { hoTen: fullName },
+          {
+            headers: {
+              token: token,
+            },
           },
-        })
+        )
         .then(() => {
-          setUserInfo({ ...userInfo, ...newObject });
+          setUserInfo({ ...userInfo, ho_ten: fullName });
           Toast.show({
             type: "success",
             text1: "Edit successfully!",
@@ -208,7 +210,7 @@ const ProfileEditScreen = ({ route, token, userInfo, setUserInfo, setChangedInfo
         },
       };
 
-      await axios.post(`${BASE_URL}/users/avatar/${userInfo.nguoiDungId}`, formData, config);
+      await axios.post(`${BASE_URL}/users/avatar/${userInfo.id}`, formData, config);
 
       alert("success");
     } catch (error) {
@@ -217,7 +219,7 @@ const ProfileEditScreen = ({ route, token, userInfo, setUserInfo, setChangedInfo
   };
 
   // inputs
-  const [fullName, setFullName] = useState(route.params?.fullName || userInfo.hoTen);
+  const [fullName, setFullName] = useState(route.params?.fullName || userInfo.ho_ten);
   const [bio, setBio] = useState(route.params?.bio || "");
   const [email, setEmail] = useState(route.params?.email || "");
   const [phone, setPhone] = useState(route.params?.phone || "");

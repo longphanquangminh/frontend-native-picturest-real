@@ -3,12 +3,10 @@ import { View, Text, ImageBackground, Image, TouchableOpacity } from "react-nati
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
 import Toast from "react-native-toast-message";
 import { capitalizeString } from "../helpers/capitalizeString";
-import { BASE_URL_IMG } from "../api/config";
 import { useState } from "react";
 
 const CustomDrawer = props => {
@@ -25,9 +23,7 @@ const CustomDrawer = props => {
           {props.userInfo ? (
             <Image
               source={
-                error || !props.userInfo?.anhDaiDien
-                  ? require("../../assets/images/picturest-logo.png")
-                  : { uri: `${BASE_URL_IMG}/${props.userInfo.anhDaiDien}` }
+                error || !props.userInfo?.anh_dai_dien ? require("../../assets/images/picturest-logo.png") : { uri: props.userInfo.anh_dai_dien }
               }
               onError={onImageError}
               style={{ height: 80, width: 80, borderRadius: 40, marginBottom: 10 }}
@@ -42,7 +38,7 @@ const CustomDrawer = props => {
               marginBottom: 5,
             }}
           >
-            {props.userInfo && capitalizeString(props.userInfo.hoTen)}
+            {props.userInfo && capitalizeString(props.userInfo.ho_ten)}
           </Text>
           <View style={{ flexDirection: "row" }}>
             {/* <Text

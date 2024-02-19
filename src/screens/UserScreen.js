@@ -14,7 +14,6 @@ import ProfileButton from "../components/Profile/ProfileButton";
 import UploadModal from "../components/Profile/UploadModal";
 import { useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
-import { BASE_URL_IMG } from "../api/config";
 
 function UserScreen({ userInfo, token, logout }) {
   const navigation = useNavigation();
@@ -27,7 +26,7 @@ function UserScreen({ userInfo, token, logout }) {
 
   useEffect(() => {
     if (userInfo) {
-      setImage(`${BASE_URL_IMG}/${userInfo.anhDaiDien}`);
+      setImage(userInfo.anh_dai_dien);
     }
   }, [userInfo]);
 
@@ -123,7 +122,7 @@ function UserScreen({ userInfo, token, logout }) {
     <MainContainer style={styles.container}>
       <Avatar showChangeButton={false} onButtonPress={() => setModalVisible(true)} uri={image} />
       <StyledText big bold style={[styles.text, { marginBottom: 10 }]}>
-        {userInfo.hoTen}
+        {userInfo.ho_ten}
       </StyledText>
       {/* <StyledText style={[styles.text, { marginBottom: 5 }]}>Photo addict</StyledText> */}
       {/* <StyledText small style={[styles.text, { color: colors.tertiary }]}>
@@ -134,8 +133,8 @@ function UserScreen({ userInfo, token, logout }) {
         style={{ marginTop: 20 }}
         onPress={() => {
           // navigation.navigate("ProfileEdit", {
-          //   id: userInfo.nguoiDungId,
-          //   fullName: userInfo.hoTen,
+          //   id: userInfo.id,
+          //   fullName: userInfo.ho_ten,
           //   bio: "22 year old dev from the Country Side",
           //   email: userInfo.email,
           //   phone: "+71138474930",
