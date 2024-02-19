@@ -42,7 +42,7 @@ function ProfileScreen(props) {
     // setLoading(true);
     if (activeCategory === 1) {
       axios
-        .get(`${BASE_URL}/created-by-user/${userInfo.id}`)
+        .get(`${BASE_URL}/pictures/created-by-user/${userInfo.id}`)
         .then(res => {
           setPictures(res.data.content);
           // setTimeout(() => setLoading(false), 600);
@@ -50,7 +50,7 @@ function ProfileScreen(props) {
         .catch(err => console.log(err));
     } else {
       axios
-        .get(`${BASE_URL}/saved-by-user/${userInfo.id}`)
+        .get(`${BASE_URL}/saved/saved-by-user/${userInfo.id}`)
         .then(res => {
           setPictures(res.data.content);
           // setTimeout(() => setLoading(false), 600);
